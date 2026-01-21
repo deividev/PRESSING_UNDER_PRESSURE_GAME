@@ -7,7 +7,9 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ## 🎵 Lista Completa de Sonidos Necesarios
 
 ### 1. Música de Fondo del Menú
+
 **Archivo:** `menu-music.mp3`
+
 - **Descripción:** Música ambiental tranquila para el menú principal e instrucciones
 - **Duración sugerida:** 30-60 segundos
 - **Estilo:** Electrónica suave, ambiente relajado, sin mucha tensión
@@ -18,7 +20,9 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ---
 
 ### 2. Música de Fondo del Juego
+
 **Archivo:** `background-music.mp3`
+
 - **Descripción:** Música electrónica/techno intensa que aumenta la tensión
 - **Duración sugerida:** 30-60 segundos
 - **Estilo:** Tensión constante, ritmo rápido, beats agresivos
@@ -31,6 +35,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 3. Efectos del Menú
 
 **Archivo:** `button-hover.mp3`
+
 - **Descripción:** Sonido sutil al pasar el ratón sobre cualquier botón del menú
 - **Duración:** 0.1-0.2 segundos
 - **Estilo:** "Beep" muy suave, sutil, UI minimalista
@@ -39,6 +44,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Al pasar el cursor sobre botones del menú
 
 **Archivo:** `button-click.mp3`
+
 - **Descripción:** Sonido de clic al presionar botones del menú (excepto Iniciar)
 - **Duración:** 0.2-0.3 segundos
 - **Estilo:** "Click" mecánico o electrónico, UI estándar
@@ -47,6 +53,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Al hacer clic en "Instrucciones" o "Volver"
 
 **Archivo:** `start-game.mp3`
+
 - **Descripción:** Sonido especial al iniciar el protocolo del juego
 - **Duración:** 0.5-0.8 segundos
 - **Estilo:** Tono ascendente, potente, energético, inicio épico
@@ -59,6 +66,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 4. Botones del Juego
 
 **Archivo:** `button-red-press.mp3`
+
 - **Descripción:** Sonido al presionar el botón rojo durante el juego
 - **Duración:** 0.1-0.3 segundos
 - **Estilo:** "Clack" o "Thunk" mecánico, pitch grave/bajo
@@ -67,6 +75,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Cada vez que se presiona el botón rojo
 
 **Archivo:** `button-blue-press.mp3`
+
 - **Descripción:** Sonido al presionar el botón azul durante el juego
 - **Duración:** 0.1-0.3 segundos
 - **Estilo:** "Click" o "Beep" electrónico, pitch agudo/alto
@@ -79,6 +88,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 5. Efectos de Ronda
 
 **Archivo:** `round-start.mp3`
+
 - **Descripción:** Pitido de inicio de una nueva ronda/desafío
 - **Duración:** 0.3-0.5 segundos
 - **Estilo:** "Beep" corto y claro, ascendente, atención
@@ -87,6 +97,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Al comenzar cada nueva ronda con un nuevo desafío
 
 **Archivo:** `round-success.mp3`
+
 - **Descripción:** Tono de éxito al completar correctamente una ronda
 - **Duración:** 0.5-0.8 segundos
 - **Estilo:** "Ding" o acordes ascendentes, celebratorio, victoria
@@ -95,6 +106,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Al completar exitosamente el desafío de la ronda
 
 **Archivo:** `round-fail.mp3`
+
 - **Descripción:** Sonido de error al fallar una ronda
 - **Duración:** 0.5-0.8 segundos
 - **Estilo:** "Buzz" o tonos descendentes, negativo, decepción
@@ -107,6 +119,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 6. Alertas de Tiempo
 
 **Archivo:** `timer-warning.mp3`
+
 - **Descripción:** Primera alerta cuando queda el 50% del tiempo
 - **Duración:** 0.2-0.4 segundos
 - **Estilo:** "Beep" único, suave pero perceptible
@@ -115,6 +128,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Cuando quedan 50% o menos del tiempo de ronda
 
 **Archivo:** `timer-danger.mp3`
+
 - **Descripción:** Segunda alerta cuando queda el 25% del tiempo
 - **Duración:** 0.3-0.5 segundos
 - **Estilo:** "Beep-beep" doble, más urgente, más rápido
@@ -123,6 +137,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Cuando quedan 25% o menos del tiempo de ronda
 
 **Archivo:** `timer-critical.mp3`
+
 - **Descripción:** Alerta crítica cuando queda el 12% del tiempo
 - **Duración:** 0.5-0.8 segundos
 - **Estilo:** Sirena o "beeps" rápidos, máxima urgencia, alarma
@@ -135,6 +150,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 7. Game Over
 
 **Archivo:** `game-over-explosion.mp3`
+
 - **Descripción:** Explosión dramática al perder el juego
 - **Duración:** 1-2 segundos
 - **Estilo:** "Boom" o explosión electrónica, impacto fuerte
@@ -143,6 +159,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Inmediatamente al perder, inicio de la secuencia de Game Over
 
 **Archivo:** `game-over-glitch.mp3`
+
 - **Descripción:** Sonido de glitch/error del sistema durante animación
 - **Duración:** 0.5-1 segundo
 - **Estilo:** Ruido estático, pitch shifter, distorsión, fallo técnico
@@ -155,6 +172,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ### 8. Efectos Visuales
 
 **Archivo:** `particle-burst.mp3`
+
 - **Descripción:** Sonido de explosión de partículas al hacer clic en botones
 - **Duración:** 0.2-0.4 segundos
 - **Estilo:** "Whoosh" o "Pop" suave, explosión ligera
@@ -163,6 +181,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - **Cuándo suena:** Cada vez que se generan partículas (clicks en botones)
 
 **Archivo:** `screen-shake.mp3`
+
 - **Descripción:** Vibración/temblor con el efecto de cámara
 - **Duración:** 0.5 segundos
 - **Estilo:** Ruido grave de vibración, rumble
@@ -173,7 +192,9 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 ---
 
 ## 📊 Resumen Total
+
 **Total de archivos necesarios:** 17 archivos MP3
+
 - 2 músicas de fondo (loop)
 - 3 efectos del menú
 - 2 efectos de botones del juego
@@ -243,6 +264,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 5. **Licencia:** Asegúrate de usar sonidos con licencia apropiada (Creative Commons o dominio público)
 
 ### Menú:
+
 - La música del menú inicia al cargar (si el navegador lo permite) o con el primer hover
 - Sonido de hover cada vez que pasas el ratón sobre un botón
 - Sonido de click al presionar botones del menú
@@ -250,6 +272,7 @@ Todos los archivos de audio deben colocarse en: `src/assets/sounds/`
 - La música del menú se detiene al iniciar el juego
 
 ### Juego:
+
 ## 🎮 Comportamiento del Audio en el Juego
 
 - La música de fondo inicia cuando comienza el juego y se detiene en Game Over

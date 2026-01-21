@@ -2,31 +2,42 @@
   <div class="settings-container">
     <div class="settings-header">
       <button class="btn-close-modal" (click)="closeSettings()">✕</button>
-      <h2 class="settings-title">⚙️ {{ translationService.translate('settings.title') }}</h2>
-      <p class="settings-subtitle">{{ translationService.translate('settings.subtitle') }}</p>
+      <h2 class="settings-title">
+        ⚙️ {{ translationService.translate("settings.title") }}
+      </h2>
+      <p class="settings-subtitle">
+        {{ translationService.translate("settings.subtitle") }}
+      </p>
     </div>
 
     <div class="settings-content">
       <!-- Language Settings -->
       <div class="settings-section">
-        <h3 class="section-title"><span class="icon">🌐</span> {{ translationService.translate('settings.language.title') }}</h3>
-        
+        <h3 class="section-title">
+          <span class="icon">🌐</span>
+          {{ translationService.translate("settings.language.title") }}
+        </h3>
+
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">{{ translationService.translate('settings.language.label') }}</div>
+            <div class="label-title">
+              {{ translationService.translate("settings.language.label") }}
+            </div>
           </div>
           <div class="language-selector">
-            <button 
+            <button
               class="language-button"
               [class.active]="currentLanguage === 'en'"
-              (click)="changeLanguage('en')">
-              🇬🇧 {{ translationService.translate('settings.language.english') }}
+              (click)="changeLanguage('en')"
+            >
+              🇬🇧 {{ translationService.translate("settings.language.english") }}
             </button>
-            <button 
+            <button
               class="language-button"
               [class.active]="currentLanguage === 'es'"
-              (click)="changeLanguage('es')">
-              🇪🇸 {{ translationService.translate('settings.language.spanish') }}
+              (click)="changeLanguage('es')"
+            >
+              🇪🇸 {{ translationService.translate("settings.language.spanish") }}
             </button>
           </div>
         </div>
@@ -34,87 +45,116 @@
 
       <!-- Audio Settings -->
       <div class="settings-section">
-        <h3 class="section-title"><span class="icon">🔊</span> {{ translationService.translate('settings.audio.title') }}</h3>
-        
+        <h3 class="section-title">
+          <span class="icon">🔊</span>
+          {{ translationService.translate("settings.audio.title") }}
+        </h3>
+
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">{{ translationService.translate('settings.audio.masterVolume') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.audio.masterVolume') }}</div>
+            <div class="label-title">
+              {{ translationService.translate("settings.audio.masterVolume") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.audio.masterVolume") }}
+            </div>
           </div>
           <div class="volume-control">
-            <input 
+            <input
               type="range"
               min="0"
               max="100"
               [(ngModel)]="settings.masterVolume"
               (change)="updateSetting('masterVolume', settings.masterVolume)"
-              class="volume-slider">
+              class="volume-slider"
+            />
             <span class="volume-value">{{ settings.masterVolume }}%</span>
           </div>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">{{ translationService.translate('settings.audio.musicVolume') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.audio.musicVolume') }}</div>
+            <div class="label-title">
+              {{ translationService.translate("settings.audio.musicVolume") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.audio.musicVolume") }}
+            </div>
           </div>
           <div class="volume-control">
-            <input 
+            <input
               type="range"
               min="0"
               max="100"
               [(ngModel)]="settings.musicVolume"
               (change)="updateSetting('musicVolume', settings.musicVolume)"
               class="volume-slider"
-              [disabled]="!settings.musicEnabled">
+              [disabled]="!settings.musicEnabled"
+            />
             <span class="volume-value">{{ settings.musicVolume }}%</span>
           </div>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">{{ translationService.translate('settings.audio.sfxVolume') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.audio.sfxVolume') }}</div>
+            <div class="label-title">
+              {{ translationService.translate("settings.audio.sfxVolume") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.audio.sfxVolume") }}
+            </div>
           </div>
           <div class="volume-control">
-            <input 
+            <input
               type="range"
               min="0"
               max="100"
               [(ngModel)]="settings.sfxVolume"
               (change)="updateSetting('sfxVolume', settings.sfxVolume)"
               class="volume-slider"
-              [disabled]="!settings.sfxEnabled">
+              [disabled]="!settings.sfxEnabled"
+            />
             <span class="volume-value">{{ settings.sfxVolume }}%</span>
           </div>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🎵 {{ translationService.translate('settings.audio.musicEnabled') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.audio.musicDesc') }}</div>
+            <div class="label-title">
+              🎵
+              {{ translationService.translate("settings.audio.musicEnabled") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.audio.musicDesc") }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.musicEnabled"
-              (change)="updateSetting('musicEnabled', settings.musicEnabled)">
+              (change)="updateSetting('musicEnabled', settings.musicEnabled)"
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🔊 {{ translationService.translate('settings.audio.sfxEnabled') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.audio.sfxDesc') }}</div>
+            <div class="label-title">
+              🔊 {{ translationService.translate("settings.audio.sfxEnabled") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.audio.sfxDesc") }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.sfxEnabled"
-              (change)="updateSetting('sfxEnabled', settings.sfxEnabled)">
+              (change)="updateSetting('sfxEnabled', settings.sfxEnabled)"
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -122,13 +162,17 @@
 
       <!-- Difficulty -->
       <div class="settings-section">
-        <h3 class="section-title"><span class="icon">⚔️</span> {{ translationService.translate('settings.difficulty.title') }}</h3>
+        <h3 class="section-title">
+          <span class="icon">⚔️</span>
+          {{ translationService.translate("settings.difficulty.title") }}
+        </h3>
         <div class="difficulty-selector">
-          <button 
+          <button
             *ngFor="let diff of difficultyOptions"
             class="difficulty-button"
             [class.active]="settings.difficulty === diff.value"
-            (click)="updateSetting('difficulty', diff.value)">
+            (click)="updateSetting('difficulty', diff.value)"
+          >
             {{ diff.label }}
           </button>
         </div>
@@ -136,64 +180,108 @@
 
       <!-- Visual Effects -->
       <div class="settings-section">
-        <h3 class="section-title"><span class="icon">🎨</span> {{ translationService.translate('settings.visual.title') }}</h3>
-        
+        <h3 class="section-title">
+          <span class="icon">🎨</span>
+          {{ translationService.translate("settings.visual.title") }}
+        </h3>
+
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">✨ {{ translationService.translate('settings.visual.particles') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.visual.particlesDesc') }}</div>
+            <div class="label-title">
+              ✨ {{ translationService.translate("settings.visual.particles") }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate("settings.visual.particlesDesc")
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.particlesEnabled"
-              (change)="updateSetting('particlesEnabled', settings.particlesEnabled)">
+              (change)="
+                updateSetting('particlesEnabled', settings.particlesEnabled)
+              "
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🌈 {{ translationService.translate('settings.visual.chromatic') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.visual.chromaticDesc') }}</div>
+            <div class="label-title">
+              🌈 {{ translationService.translate("settings.visual.chromatic") }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate("settings.visual.chromaticDesc")
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.chromaticAberrationEnabled"
-              (change)="updateSetting('chromaticAberrationEnabled', settings.chromaticAberrationEnabled)">
+              (change)="
+                updateSetting(
+                  'chromaticAberrationEnabled',
+                  settings.chromaticAberrationEnabled
+                )
+              "
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">💥 {{ translationService.translate('settings.visual.screenShake') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.visual.screenShakeDesc') }}</div>
+            <div class="label-title">
+              💥
+              {{ translationService.translate("settings.visual.screenShake") }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate("settings.visual.screenShakeDesc")
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.screenShakeEnabled"
-              (change)="updateSetting('screenShakeEnabled', settings.screenShakeEnabled)">
+              (change)="
+                updateSetting('screenShakeEnabled', settings.screenShakeEnabled)
+              "
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">👾 {{ translationService.translate('settings.visual.glitch') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.visual.glitchDesc') }}</div>
+            <div class="label-title">
+              👾 {{ translationService.translate("settings.visual.glitch") }}
+            </div>
+            <div class="label-description">
+              {{ translationService.translate("settings.visual.glitchDesc") }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.glitchEffectEnabled"
-              (change)="updateSetting('glitchEffectEnabled', settings.glitchEffectEnabled)">
+              (change)="
+                updateSetting(
+                  'glitchEffectEnabled',
+                  settings.glitchEffectEnabled
+                )
+              "
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -201,49 +289,94 @@
 
       <!-- Accessibility -->
       <div class="settings-section">
-        <h3 class="section-title"><span class="icon">♿</span> {{ translationService.translate('settings.accessibility.title') }}</h3>
-        
+        <h3 class="section-title">
+          <span class="icon">♿</span>
+          {{ translationService.translate("settings.accessibility.title") }}
+        </h3>
+
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🔆 {{ translationService.translate('settings.accessibility.highContrast') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.accessibility.highContrastDesc') }}</div>
+            <div class="label-title">
+              🔆
+              {{
+                translationService.translate(
+                  "settings.accessibility.highContrast"
+                )
+              }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate(
+                  "settings.accessibility.highContrastDesc"
+                )
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.highContrast"
-              (change)="updateSetting('highContrast', settings.highContrast)">
+              (change)="updateSetting('highContrast', settings.highContrast)"
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🐌 {{ translationService.translate('settings.accessibility.reducedMotion') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.accessibility.reducedMotionDesc') }}</div>
+            <div class="label-title">
+              🐌
+              {{
+                translationService.translate(
+                  "settings.accessibility.reducedMotion"
+                )
+              }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate(
+                  "settings.accessibility.reducedMotionDesc"
+                )
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.reducedMotion"
-              (change)="updateSetting('reducedMotion', settings.reducedMotion)">
+              (change)="updateSetting('reducedMotion', settings.reducedMotion)"
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
 
         <div class="setting-item">
           <div class="setting-label">
-            <div class="label-title">🎯 {{ translationService.translate('settings.accessibility.showTutorial') }}</div>
-            <div class="label-description">{{ translationService.translate('settings.accessibility.showTutorialDesc') }}</div>
+            <div class="label-title">
+              🎯
+              {{
+                translationService.translate(
+                  "settings.accessibility.showTutorial"
+                )
+              }}
+            </div>
+            <div class="label-description">
+              {{
+                translationService.translate(
+                  "settings.accessibility.showTutorialDesc"
+                )
+              }}
+            </div>
           </div>
           <label class="toggle-switch">
-            <input 
+            <input
               type="checkbox"
               class="toggle-input"
               [(ngModel)]="settings.showTutorial"
-              (change)="updateSetting('showTutorial', settings.showTutorial)">
+              (change)="updateSetting('showTutorial', settings.showTutorial)"
+            />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -252,7 +385,7 @@
       <!-- Reset Button -->
       <div class="actions">
         <button class="btn-reset" (click)="resetToDefaults()">
-          🔄 {{ translationService.translate('common.reset') }}
+          🔄 {{ translationService.translate("common.reset") }}
         </button>
       </div>
     </div>

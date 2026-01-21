@@ -1,12 +1,19 @@
-import { Component, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angular/core';
-import { SettingsService } from '../../services/settings.service';
-import { PlayerStatsService } from '../../services/player-stats.service';
-import { TranslationService } from '../../services/translation.service';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  OnInit,
+  OnDestroy,
+} from "@angular/core";
+import { SettingsService } from "../../services/settings.service";
+import { PlayerStatsService } from "../../services/player-stats.service";
+import { TranslationService } from "../../services/translation.service";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  selector: "app-menu",
+  templateUrl: "./menu.component.html",
+  styleUrls: ["./menu.component.scss"],
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @Input() isInstructions: boolean = false;
@@ -27,22 +34,22 @@ export class MenuComponent implements OnInit, OnDestroy {
   private musicStarted: boolean = false;
 
   private readonly SOUNDS = {
-    MENU_MUSIC: 'assets/sounds/menu-music.mp3',
-    BUTTON_HOVER: 'assets/sounds/button-hover.mp3',
-    BUTTON_CLICK: 'assets/sounds/button-click.mp3',
-    START_GAME: 'assets/sounds/start-game.mp3'
+    MENU_MUSIC: "assets/sounds/menu-music.mp3",
+    BUTTON_HOVER: "assets/sounds/button-hover.mp3",
+    BUTTON_CLICK: "assets/sounds/button-click.mp3",
+    START_GAME: "assets/sounds/start-game.mp3",
   };
 
   constructor(
     private settingsService: SettingsService,
     private statsService: PlayerStatsService,
-    public translationService: TranslationService
+    public translationService: TranslationService,
   ) {}
 
   ngOnInit() {
     this.initAudio();
     this.playMenuMusic();
-    
+
     // Mostrar tutorial si es primera vez
     const settings = this.settingsService.getSettings();
     if (settings.showTutorial && !settings.tutorialCompleted) {
@@ -62,10 +69,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     const sfxVolume = this.settingsService.getSFXVolume();
 
     Object.entries(this.SOUNDS).forEach(([key, path]) => {
-      if (key !== 'MENU_MUSIC') {
+      if (key !== "MENU_MUSIC") {
         const audio = new Audio(path);
-        audio.volume = (key === 'BUTTON_HOVER' ? 0.3 : 0.5) * sfxVolume;
-        audio.preload = 'auto';
+        audio.volume = (key === "BUTTON_HOVER" ? 0.3 : 0.5) * sfxVolume;
+        audio.preload = "auto";
         this.audioContext.set(key, audio);
       }
     });
@@ -74,7 +81,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.menuMusic = new Audio(this.SOUNDS.MENU_MUSIC);
     this.menuMusic.loop = true;
     this.menuMusic.volume = 0.25 * this.settingsService.getMusicVolume();
-    this.menuMusic.preload = 'auto';
+    this.menuMusic.preload = "auto";
   }
 
   updateVolumes() {
@@ -83,7 +90,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     const musicVolume = this.settingsService.getMusicVolume();
 
     this.audioContext.forEach((audio, key) => {
-      audio.volume = (key === 'BUTTON_HOVER' ? 0.3 : 0.5) * sfxVolume;
+      audio.volume = (key === "BUTTON_HOVER" ? 0.3 : 0.5) * sfxVolume;
     });
 
     if (this.menuMusic) {
@@ -99,7 +106,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (audio) {
       const clone = audio.cloneNode(true) as HTMLAudioElement;
       clone.volume = audio.volume;
-      clone.play().catch(err => console.warn('Error al reproducir sonido:', err));
+      clone
+        .play()
+        .catch((err) => console.warn("Error al reproducir sonido:", err));
     }
   }
 
@@ -108,12 +117,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (!settings.musicEnabled) return;
 
     if (this.menuMusic && this.menuMusic.paused) {
-      this.menuMusic.play()
+      this.menuMusic
+        .play()
         .then(() => {
           this.musicStarted = true;
         })
         .catch((err) => {
-          console.warn('La música del menú se iniciará con la primera interacción');
+          console.warn(
+            "La música del menú se iniciará con la primera interacción",
+          );
         });
     }
   }
@@ -135,7 +147,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   // Eventos del menu principal
   onStartGame() {
     this.tryStartMusic();
-    this.playSound('START_GAME');
+    this.playSound("START_GAME");
     this.stopMenuMusic();
     setTimeout(() => {
       this.startGame.emit();
@@ -145,25 +157,25 @@ export class MenuComponent implements OnInit, OnDestroy {
   onShowInstructions() {
     this.tryStartMusic();
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.showInstructions.emit();
   }
 
   onBackToMenu() {
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.backToMenu.emit();
   }
 
   onButtonHover() {
     this.tryStartMusic();
-    this.playSound('BUTTON_HOVER');
+    this.playSound("BUTTON_HOVER");
   }
 
   // Eventos de modales
   openLeaderboard() {
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.showLeaderboard = true;
   }
 
@@ -173,7 +185,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   openStats() {
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.showStats = true;
   }
 
@@ -183,7 +195,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   openAchievements() {
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.showAchievements = true;
   }
 
@@ -193,7 +205,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   openSettings() {
     this.tryStartMusic();
-    this.playSound('BUTTON_CLICK');
+    this.playSound("BUTTON_CLICK");
     this.showSettings = true;
   }
 

@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 /**
  * Servicio para manejar el almacenamiento local del juego
  * Gestiona localStorage de forma segura con tipado
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class StorageService {
-  
   /**
    * Guarda un valor en localStorage
    */
@@ -17,7 +16,7 @@ export class StorageService {
       const serialized = JSON.stringify(value);
       localStorage.setItem(key, serialized);
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      console.error("Error saving to localStorage:", error);
     }
   }
 
@@ -32,7 +31,7 @@ export class StorageService {
       }
       return JSON.parse(item) as T;
     } catch (error) {
-      console.error('Error reading from localStorage:', error);
+      console.error("Error reading from localStorage:", error);
       return defaultValue !== undefined ? defaultValue : null;
     }
   }
@@ -44,7 +43,7 @@ export class StorageService {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error('Error removing from localStorage:', error);
+      console.error("Error removing from localStorage:", error);
     }
   }
 
@@ -55,7 +54,7 @@ export class StorageService {
     try {
       localStorage.clear();
     } catch (error) {
-      console.error('Error clearing localStorage:', error);
+      console.error("Error clearing localStorage:", error);
     }
   }
 

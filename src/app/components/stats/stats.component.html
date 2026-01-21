@@ -2,88 +2,140 @@
   <div class="stats-container">
     <div class="stats-header">
       <button class="btn-close-modal" (click)="closeStats()">✕</button>
-      <h2 class="stats-title">📊 {{ translationService.translate('stats.title') }}</h2>
-      <p class="stats-subtitle">{{ translationService.translate('stats.subtitle') }}</p>
+      <h2 class="stats-title">
+        📊 {{ translationService.translate("stats.title") }}
+      </h2>
+      <p class="stats-subtitle">
+        {{ translationService.translate("stats.subtitle") }}
+      </p>
     </div>
 
     <div class="stats-content" *ngIf="stats">
       <!-- Estadísticas Generales -->
       <div class="stat-section">
-        <h3 class="section-title">🎮 {{ translationService.translate('stats.general.title') }}</h3>
+        <h3 class="section-title">
+          🎮 {{ translationService.translate("stats.general.title") }}
+        </h3>
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">🎯</div>
             <div class="stat-value">{{ stats.totalGames }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.general.gamesPlayed') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.general.gamesPlayed") }}
+            </div>
           </div>
           <div class="stat-card highlight">
             <div class="stat-icon">👑</div>
             <div class="stat-value">{{ stats.highScore }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.general.highScore') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.general.highScore") }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">💰</div>
             <div class="stat-value">{{ stats.totalScore }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.general.totalScore') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.general.totalScore") }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">⏱️</div>
-            <div class="stat-value">{{ formatPlayTime(stats.totalPlayTime) }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.general.playTime') }}</div>
+            <div class="stat-value">
+              {{ formatPlayTime(stats.totalPlayTime) }}
+            </div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.general.playTime") }}
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Precisión -->
       <div class="stat-section">
-        <h3 class="section-title">🎯 {{ translationService.translate('stats.accuracy.title') }}</h3>
+        <h3 class="section-title">
+          🎯 {{ translationService.translate("stats.accuracy.title") }}
+        </h3>
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">✅</div>
             <div class="stat-value">{{ stats.totalCorrect }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.accuracy.correct') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.accuracy.correct") }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">❌</div>
             <div class="stat-value">{{ stats.totalIncorrect }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.accuracy.incorrect') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.accuracy.incorrect") }}
+            </div>
           </div>
           <div class="stat-card highlight">
             <div class="stat-icon">📈</div>
-            <div class="stat-value">{{ stats.averageAccuracy.toFixed(1) }}%</div>
-            <div class="stat-label">{{ translationService.translate('stats.accuracy.averageAccuracy') }}</div>
+            <div class="stat-value">
+              {{ stats.averageAccuracy.toFixed(1) }}%
+            </div>
+            <div class="stat-label">
+              {{
+                translationService.translate("stats.accuracy.averageAccuracy")
+              }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">⚡</div>
             <div class="stat-value">{{ stats.totalRounds }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.accuracy.totalRounds') }}</div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.accuracy.totalRounds") }}
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Rendimiento -->
       <div class="stat-section">
-        <h3 class="section-title">⚡ {{ translationService.translate('stats.performance.title') }}</h3>
+        <h3 class="section-title">
+          ⚡ {{ translationService.translate("stats.performance.title") }}
+        </h3>
         <div class="stats-grid">
           <div class="stat-card highlight">
             <div class="stat-icon">🔥</div>
             <div class="stat-value">{{ stats.longestStreak }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.performance.longestStreak') }}</div>
+            <div class="stat-label">
+              {{
+                translationService.translate("stats.performance.longestStreak")
+              }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">⏲️</div>
-            <div class="stat-value">{{ stats.averageReactionTime.toFixed(0) }}ms</div>
-            <div class="stat-label">{{ translationService.translate('stats.performance.reactionTime') }}</div>
+            <div class="stat-value">
+              {{ stats.averageReactionTime.toFixed(0) }}ms
+            </div>
+            <div class="stat-label">
+              {{
+                translationService.translate("stats.performance.reactionTime")
+              }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">📅</div>
-            <div class="stat-value">{{ formatLastPlayed(stats.lastPlayed) }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.performance.lastPlayed') }}</div>
+            <div class="stat-value">
+              {{ formatLastPlayed(stats.lastPlayed) }}
+            </div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.performance.lastPlayed") }}
+            </div>
           </div>
           <div class="stat-card">
             <div class="stat-icon">📊</div>
-            <div class="stat-value">{{ (stats.totalScore / Math.max(stats.totalGames, 1)).toFixed(0) }}</div>
-            <div class="stat-label">{{ translationService.translate('stats.performance.avgPerGame') }}</div>
+            <div class="stat-value">
+              {{
+                (stats.totalScore / Math.max(stats.totalGames, 1)).toFixed(0)
+              }}
+            </div>
+            <div class="stat-label">
+              {{ translationService.translate("stats.performance.avgPerGame") }}
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +143,9 @@
 
     <div class="empty-state" *ngIf="!stats || stats.totalGames === 0">
       <div class="empty-icon">📊</div>
-      <p class="empty-message">{{ translationService.translate('stats.empty') }}</p>
+      <p class="empty-message">
+        {{ translationService.translate("stats.empty") }}
+      </p>
     </div>
   </div>
 </div>

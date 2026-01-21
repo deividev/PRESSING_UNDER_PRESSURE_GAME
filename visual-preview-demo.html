@@ -1,770 +1,857 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo de Mejoras Visuales - Pressing Under Pressure</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #1a2332 0%, #0f1620 100%);
-            color: #00ff88;
-            padding: 40px 20px;
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Courier New", monospace;
+        background: linear-gradient(135deg, #1a2332 0%, #0f1620 100%);
+        color: #00ff88;
+        padding: 40px 20px;
+        min-height: 100vh;
+      }
 
-        .demo-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+      .demo-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
 
-        h1 {
-            text-align: center;
-            font-size: 3em;
-            letter-spacing: 8px;
-            margin-bottom: 50px;
-            color: #00ff88;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
-            text-transform: uppercase;
-        }
+      h1 {
+        text-align: center;
+        font-size: 3em;
+        letter-spacing: 8px;
+        margin-bottom: 50px;
+        color: #00ff88;
+        text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+        text-transform: uppercase;
+      }
 
-        .demo-section {
-            background: linear-gradient(145deg, #2a3544, #1e2733);
-            border: 3px solid #3a4a5a;
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-        }
+      .demo-section {
+        background: linear-gradient(145deg, #2a3544, #1e2733);
+        border: 3px solid #3a4a5a;
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+      }
 
-        .demo-title {
-            font-size: 1.5em;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-        }
+      .demo-title {
+        font-size: 1.5em;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+        color: #00ff88;
+        text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+      }
 
-        .demo-description {
-            color: #aaffdd;
-            margin-bottom: 25px;
-            line-height: 1.6;
-            opacity: 0.9;
+      .demo-description {
+        color: #aaffdd;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+
+      .demo-preview {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        min-height: 200px;
+      }
+
+      /* ========== DEMO 1: Botones con profundidad 3D ========== */
+      .button-3d {
+        width: 250px;
+        padding: 25px 40px;
+        font-size: 1.3em;
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        background: linear-gradient(145deg, #2a3544, #1e2733);
+        color: #00ff88;
+        border: 3px solid #3a4a5a;
+        cursor: pointer;
+        font-family: "Courier New", monospace;
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        transition: all 0.2s ease;
+        box-shadow:
+          inset 0 2px 5px rgba(0, 0, 0, 0.3),
+          0 8px 20px rgba(0, 0, 0, 0.7);
+      }
+
+      .button-3d::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 50%,
+          rgba(0, 0, 0, 0.3) 100%
+        );
+        pointer-events: none;
+      }
+
+      .button-3d:hover {
+        transform: translateY(-3px);
+        border-color: #00ff88;
+        box-shadow:
+          inset 0 2px 5px rgba(0, 0, 0, 0.3),
+          0 12px 25px rgba(0, 0, 0, 0.8),
+          0 0 30px rgba(0, 255, 136, 0.4);
+      }
+
+      .button-3d:active {
+        transform: translateY(2px);
+        box-shadow:
+          inset 0 4px 10px rgba(0, 0, 0, 0.5),
+          0 4px 10px rgba(0, 0, 0, 0.7);
+      }
+
+      .button-3d.with-ripple::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(0, 255, 136, 0.4);
+        transform: translate(-50%, -50%);
+        animation: none;
+      }
+
+      .button-3d.with-ripple.ripple-active::after {
+        animation: ripple-effect 0.6s ease-out;
+      }
+
+      @keyframes ripple-effect {
+        to {
+          width: 300px;
+          height: 300px;
+          opacity: 0;
+        }
+      }
+
+      /* ========== DEMO 2: LED Indicators mejorados ========== */
+      .led-demo {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .led-container {
+        text-align: center;
+      }
+
+      .led-label {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 0.9em;
+        letter-spacing: 2px;
+        opacity: 0.7;
+      }
+
+      .led-old {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+
+      .led-new {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin: 0 auto;
+        position: relative;
+        box-shadow:
+          0 0 20px currentColor,
+          0 0 40px currentColor,
+          inset 0 0 10px rgba(255, 255, 255, 0.4);
+      }
+
+      .led-new::before {
+        content: "";
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        width: 35%;
+        height: 35%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.8);
+        filter: blur(2px);
+      }
+
+      .led-red-old {
+        background: #ff3333;
+        box-shadow: 0 0 15px #ff3333;
+      }
+      .led-red-new {
+        background: #ff3333;
+        color: #ff3333;
+      }
+      .led-blue-old {
+        background: #3388ff;
+        box-shadow: 0 0 15px #3388ff;
+      }
+      .led-blue-new {
+        background: #3388ff;
+        color: #3388ff;
+      }
+      .led-green-old {
+        background: #00ff88;
+        box-shadow: 0 0 15px #00ff88;
+      }
+      .led-green-new {
+        background: #00ff88;
+        color: #00ff88;
+      }
+
+      /* ========== DEMO 3: Timer circular dinámico ========== */
+      .timer-demo {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        margin: 20px;
+      }
+
+      .timer-segments {
+        position: absolute;
+        inset: 0;
+        animation: rotate-slow 20s linear infinite;
+      }
+
+      @keyframes rotate-slow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .timer-segment {
+        position: absolute;
+        width: 20px;
+        height: 8px;
+        background: linear-gradient(
+          135deg,
+          #00ff88 0%,
+          #00dd77 50%,
+          #00bb66 100%
+        );
+        border: 2px solid rgba(0, 0, 0, 0.9);
+        border-radius: 3px;
+        box-shadow:
+          0 0 15px rgba(0, 255, 136, 0.9),
+          0 0 30px rgba(0, 255, 136, 0.6),
+          inset 0 2px 8px rgba(255, 255, 255, 0.3);
+        animation: segment-pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes segment-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 15px rgba(0, 255, 136, 0.9);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(0, 255, 136, 1);
+        }
+      }
+
+      .timer-center {
+        position: absolute;
+        inset: 30px;
+        background: linear-gradient(145deg, #0a0f15, #151e2a);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        font-weight: bold;
+        color: #00ff88;
+      }
+
+      /* ========== DEMO 4: Panel con textura metálica ========== */
+      .panel-metallic {
+        background: linear-gradient(145deg, #2a3544, #1e2733);
+        border: 3px solid #3a4a5a;
+        border-radius: 8px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .panel-metallic::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.02) 2px,
+          rgba(255, 255, 255, 0.02) 4px
+        );
+        pointer-events: none;
+        border-radius: 8px;
+      }
+
+      .panel-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        font-size: 1.5em;
+        letter-spacing: 3px;
+      }
+
+      /* ========== DEMO 5: Hover effects con sweep ========== */
+      .button-sweep {
+        width: 280px;
+        padding: 20px 40px;
+        font-size: 1.2em;
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        background: linear-gradient(145deg, #00ff88, #00cc6a);
+        color: #0f1620;
+        border: 2px solid #00ff88;
+        cursor: pointer;
+        font-family: "Courier New", monospace;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow:
+          inset 0 2px 5px rgba(255, 255, 255, 0.2),
+          0 4px 10px rgba(0, 0, 0, 0.5),
+          0 0 20px rgba(0, 255, 136, 0.4);
+      }
+
+      .button-sweep::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: transform 0.6s;
+      }
+
+      .button-sweep:hover::before {
+        transform: translateX(100%);
+      }
+
+      .button-sweep:hover {
+        box-shadow:
+          inset 0 2px 5px rgba(255, 255, 255, 0.3),
+          0 4px 10px rgba(0, 0, 0, 0.5),
+          0 0 40px rgba(0, 255, 136, 0.7);
+        transform: translateY(-2px);
+      }
+
+      /* ========== DEMO 6: Aberración cromática ========== */
+      .chromatic-text {
+        font-size: 3em;
+        font-weight: bold;
+        letter-spacing: 5px;
+        color: #00ff88;
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        position: relative;
+        display: inline-block;
+      }
+
+      .chromatic-text.active::before,
+      .chromatic-text.active::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+      }
+
+      .chromatic-text.active::before {
+        color: #ff0000;
+        animation: chromatic-left 0.3s infinite;
+      }
+
+      .chromatic-text.active::after {
+        color: #00ffff;
+        animation: chromatic-right 0.3s infinite;
+      }
+
+      @keyframes chromatic-left {
+        0%,
+        100% {
+          transform: translateX(-2px);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateX(2px);
+          opacity: 0.6;
+        }
+      }
+
+      @keyframes chromatic-right {
+        0%,
+        100% {
+          transform: translateX(2px);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateX(-2px);
+          opacity: 0.6;
+        }
+      }
+
+      /* ========== DEMO 7: Scanlines mejoradas ========== */
+      .monitor-demo {
+        width: 100%;
+        max-width: 600px;
+        height: 300px;
+        background: linear-gradient(145deg, #0a0f15, #151e2a);
+        border: 4px solid #2a3544;
+        border-radius: 6px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .monitor-demo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        );
+        pointer-events: none;
+        animation: scanlines-move 8s linear infinite;
+      }
+
+      @keyframes scanlines-move {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(4px);
+        }
+      }
+
+      .monitor-text {
+        font-size: 2em;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: #00ff88;
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ========== DEMO 8: Botones industriales con energía ========== */
+      .industrial-button {
+        width: 200px;
+        height: 180px;
+        background: linear-gradient(145deg, #2a3544, #1e2733);
+        border: 3px solid #ff3333;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow:
+          0 8px 20px rgba(0, 0, 0, 0.7),
+          inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .industrial-button:hover {
+        transform: translateY(-3px);
+        animation: energy-flow-red 2s linear infinite;
+      }
+
+      @keyframes energy-flow-red {
+        0%,
+        100% {
+          box-shadow:
+            0 12px 25px rgba(0, 0, 0, 0.8),
+            0 0 20px rgba(255, 51, 51, 0.4),
+            0 0 40px rgba(255, 51, 51, 0.2);
+        }
+        50% {
+          box-shadow:
+            0 12px 25px rgba(0, 0, 0, 0.8),
+            0 0 30px rgba(255, 51, 51, 0.6),
+            0 0 60px rgba(255, 51, 51, 0.3);
+        }
+      }
+
+      .industrial-button.blue {
+        border-color: #3388ff;
+      }
+
+      .industrial-button.blue:hover {
+        animation: energy-flow-blue 2s linear infinite;
+      }
+
+      @keyframes energy-flow-blue {
+        0%,
+        100% {
+          box-shadow:
+            0 12px 25px rgba(0, 0, 0, 0.8),
+            0 0 20px rgba(51, 136, 255, 0.4),
+            0 0 40px rgba(51, 136, 255, 0.2);
+        }
+        50% {
+          box-shadow:
+            0 12px 25px rgba(0, 0, 0, 0.8),
+            0 0 30px rgba(51, 136, 255, 0.6),
+            0 0 60px rgba(51, 136, 255, 0.3);
+        }
+      }
+
+      .btn-led {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #ff3333;
+        box-shadow:
+          0 0 15px #ff3333,
+          inset 0 0 10px rgba(255, 255, 255, 0.4);
+      }
+
+      .industrial-button.blue .btn-led {
+        background: #3388ff;
+        box-shadow:
+          0 0 15px #3388ff,
+          inset 0 0 10px rgba(255, 255, 255, 0.4);
+      }
+
+      .btn-label {
+        font-size: 1.5em;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: #00ff88;
+        text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+      }
+
+      /* Toggle switch para activar/desactivar efectos */
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .toggle-switch {
+        width: 60px;
+        height: 30px;
+        background: #1e2733;
+        border: 2px solid #3a4a5a;
+        border-radius: 15px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .toggle-switch.active {
+        background: #00ff88;
+        border-color: #00ff88;
+      }
+
+      .toggle-switch::after {
+        content: "";
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        background: #3a4a5a;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: all 0.3s ease;
+      }
+
+      .toggle-switch.active::after {
+        left: 32px;
+        background: #0f1620;
+      }
+
+      .comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .comparison-item {
+        text-align: center;
+      }
+
+      .comparison-label {
+        font-size: 1em;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        color: #ffaa00;
+      }
+
+      @media (max-width: 768px) {
+        .comparison {
+          grid-template-columns: 1fr;
         }
 
         .demo-preview {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            min-height: 200px;
+          flex-direction: column;
         }
-
-        /* ========== DEMO 1: Botones con profundidad 3D ========== */
-        .button-3d {
-            width: 250px;
-            padding: 25px 40px;
-            font-size: 1.3em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(145deg, #2a3544, #1e2733);
-            color: #00ff88;
-            border: 3px solid #3a4a5a;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            border-radius: 6px;
-            overflow: hidden;
-            transition: all 0.2s ease;
-            box-shadow: 
-                inset 0 2px 5px rgba(0, 0, 0, 0.3), 
-                0 8px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        .button-3d::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 6px;
-            background: linear-gradient(180deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                transparent 50%, 
-                rgba(0, 0, 0, 0.3) 100%);
-            pointer-events: none;
-        }
-
-        .button-3d:hover {
-            transform: translateY(-3px);
-            border-color: #00ff88;
-            box-shadow: 
-                inset 0 2px 5px rgba(0, 0, 0, 0.3), 
-                0 12px 25px rgba(0, 0, 0, 0.8),
-                0 0 30px rgba(0, 255, 136, 0.4);
-        }
-
-        .button-3d:active {
-            transform: translateY(2px);
-            box-shadow: 
-                inset 0 4px 10px rgba(0, 0, 0, 0.5), 
-                0 4px 10px rgba(0, 0, 0, 0.7);
-        }
-
-        .button-3d.with-ripple::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(0, 255, 136, 0.4);
-            transform: translate(-50%, -50%);
-            animation: none;
-        }
-
-        .button-3d.with-ripple.ripple-active::after {
-            animation: ripple-effect 0.6s ease-out;
-        }
-
-        @keyframes ripple-effect {
-            to {
-                width: 300px;
-                height: 300px;
-                opacity: 0;
-            }
-        }
-
-        /* ========== DEMO 2: LED Indicators mejorados ========== */
-        .led-demo {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .led-container {
-            text-align: center;
-        }
-
-        .led-label {
-            display: block;
-            margin-bottom: 15px;
-            font-size: 0.9em;
-            letter-spacing: 2px;
-            opacity: 0.7;
-        }
-
-        .led-old {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
-
-        .led-new {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            margin: 0 auto;
-            position: relative;
-            box-shadow: 
-                0 0 20px currentColor,
-                0 0 40px currentColor,
-                inset 0 0 10px rgba(255, 255, 255, 0.4);
-        }
-
-        .led-new::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 35%;
-            height: 35%;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.8);
-            filter: blur(2px);
-        }
-
-        .led-red-old { background: #ff3333; box-shadow: 0 0 15px #ff3333; }
-        .led-red-new { background: #ff3333; color: #ff3333; }
-        .led-blue-old { background: #3388ff; box-shadow: 0 0 15px #3388ff; }
-        .led-blue-new { background: #3388ff; color: #3388ff; }
-        .led-green-old { background: #00ff88; box-shadow: 0 0 15px #00ff88; }
-        .led-green-new { background: #00ff88; color: #00ff88; }
-
-        /* ========== DEMO 3: Timer circular dinámico ========== */
-        .timer-demo {
-            width: 200px;
-            height: 200px;
-            position: relative;
-            margin: 20px;
-        }
-
-        .timer-segments {
-            position: absolute;
-            inset: 0;
-            animation: rotate-slow 20s linear infinite;
-        }
-
-        @keyframes rotate-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .timer-segment {
-            position: absolute;
-            width: 20px;
-            height: 8px;
-            background: linear-gradient(135deg, #00ff88 0%, #00dd77 50%, #00bb66 100%);
-            border: 2px solid rgba(0, 0, 0, 0.9);
-            border-radius: 3px;
-            box-shadow: 
-                0 0 15px rgba(0, 255, 136, 0.9),
-                0 0 30px rgba(0, 255, 136, 0.6),
-                inset 0 2px 8px rgba(255, 255, 255, 0.3);
-            animation: segment-pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes segment-pulse {
-            0%, 100% { 
-                box-shadow: 0 0 15px rgba(0, 255, 136, 0.9);
-            }
-            50% { 
-                box-shadow: 0 0 30px rgba(0, 255, 136, 1);
-            }
-        }
-
-        .timer-center {
-            position: absolute;
-            inset: 30px;
-            background: linear-gradient(145deg, #0a0f15, #151e2a);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        /* ========== DEMO 4: Panel con textura metálica ========== */
-        .panel-metallic {
-            background: linear-gradient(145deg, #2a3544, #1e2733);
-            border: 3px solid #3a4a5a;
-            border-radius: 8px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .panel-metallic::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255, 255, 255, 0.02) 2px,
-                    rgba(255, 255, 255, 0.02) 4px
-                );
-            pointer-events: none;
-            border-radius: 8px;
-        }
-
-        .panel-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            font-size: 1.5em;
-            letter-spacing: 3px;
-        }
-
-        /* ========== DEMO 5: Hover effects con sweep ========== */
-        .button-sweep {
-            width: 280px;
-            padding: 20px 40px;
-            font-size: 1.2em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(145deg, #00ff88, #00cc6a);
-            color: #0f1620;
-            border: 2px solid #00ff88;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 
-                inset 0 2px 5px rgba(255, 255, 255, 0.2), 
-                0 4px 10px rgba(0, 0, 0, 0.5), 
-                0 0 20px rgba(0, 255, 136, 0.4);
-        }
-
-        .button-sweep::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .button-sweep:hover::before {
-            transform: translateX(100%);
-        }
-
-        .button-sweep:hover {
-            box-shadow: 
-                inset 0 2px 5px rgba(255, 255, 255, 0.3), 
-                0 4px 10px rgba(0, 0, 0, 0.5), 
-                0 0 40px rgba(0, 255, 136, 0.7);
-            transform: translateY(-2px);
-        }
-
-        /* ========== DEMO 6: Aberración cromática ========== */
-        .chromatic-text {
-            font-size: 3em;
-            font-weight: bold;
-            letter-spacing: 5px;
-            color: #00ff88;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
-            position: relative;
-            display: inline-block;
-        }
-
-        .chromatic-text.active::before,
-        .chromatic-text.active::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            mix-blend-mode: screen;
-        }
-
-        .chromatic-text.active::before {
-            color: #ff0000;
-            animation: chromatic-left 0.3s infinite;
-        }
-
-        .chromatic-text.active::after {
-            color: #00ffff;
-            animation: chromatic-right 0.3s infinite;
-        }
-
-        @keyframes chromatic-left {
-            0%, 100% { transform: translateX(-2px); opacity: 0.8; }
-            50% { transform: translateX(2px); opacity: 0.6; }
-        }
-
-        @keyframes chromatic-right {
-            0%, 100% { transform: translateX(2px); opacity: 0.8; }
-            50% { transform: translateX(-2px); opacity: 0.6; }
-        }
-
-        /* ========== DEMO 7: Scanlines mejoradas ========== */
-        .monitor-demo {
-            width: 100%;
-            max-width: 600px;
-            height: 300px;
-            background: linear-gradient(145deg, #0a0f15, #151e2a);
-            border: 4px solid #2a3544;
-            border-radius: 6px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .monitor-demo::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            animation: scanlines-move 8s linear infinite;
-        }
-
-        @keyframes scanlines-move {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(4px); }
-        }
-
-        .monitor-text {
-            font-size: 2em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #00ff88;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ========== DEMO 8: Botones industriales con energía ========== */
-        .industrial-button {
-            width: 200px;
-            height: 180px;
-            background: linear-gradient(145deg, #2a3544, #1e2733);
-            border: 3px solid #ff3333;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.7), 
-                inset 0 2px 5px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .industrial-button:hover {
-            transform: translateY(-3px);
-            animation: energy-flow-red 2s linear infinite;
-        }
-
-        @keyframes energy-flow-red {
-            0%, 100% {
-                box-shadow: 
-                    0 12px 25px rgba(0, 0, 0, 0.8),
-                    0 0 20px rgba(255, 51, 51, 0.4),
-                    0 0 40px rgba(255, 51, 51, 0.2);
-            }
-            50% {
-                box-shadow: 
-                    0 12px 25px rgba(0, 0, 0, 0.8),
-                    0 0 30px rgba(255, 51, 51, 0.6),
-                    0 0 60px rgba(255, 51, 51, 0.3);
-            }
-        }
-
-        .industrial-button.blue {
-            border-color: #3388ff;
-        }
-
-        .industrial-button.blue:hover {
-            animation: energy-flow-blue 2s linear infinite;
-        }
-
-        @keyframes energy-flow-blue {
-            0%, 100% {
-                box-shadow: 
-                    0 12px 25px rgba(0, 0, 0, 0.8),
-                    0 0 20px rgba(51, 136, 255, 0.4),
-                    0 0 40px rgba(51, 136, 255, 0.2);
-            }
-            50% {
-                box-shadow: 
-                    0 12px 25px rgba(0, 0, 0, 0.8),
-                    0 0 30px rgba(51, 136, 255, 0.6),
-                    0 0 60px rgba(51, 136, 255, 0.3);
-            }
-        }
-
-        .btn-led {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #ff3333;
-            box-shadow: 
-                0 0 15px #ff3333,
-                inset 0 0 10px rgba(255, 255, 255, 0.4);
-        }
-
-        .industrial-button.blue .btn-led {
-            background: #3388ff;
-            box-shadow: 
-                0 0 15px #3388ff,
-                inset 0 0 10px rgba(255, 255, 255, 0.4);
-        }
-
-        .btn-label {
-            font-size: 1.5em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
-        }
-
-        /* Toggle switch para activar/desactivar efectos */
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .toggle-switch {
-            width: 60px;
-            height: 30px;
-            background: #1e2733;
-            border: 2px solid #3a4a5a;
-            border-radius: 15px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-switch.active {
-            background: #00ff88;
-            border-color: #00ff88;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            background: #3a4a5a;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-switch.active::after {
-            left: 32px;
-            background: #0f1620;
-        }
-
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .comparison-item {
-            text-align: center;
-        }
-
-        .comparison-label {
-            font-size: 1em;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            color: #ffaa00;
-        }
-
-        @media (max-width: 768px) {
-            .comparison {
-                grid-template-columns: 1fr;
-            }
-            
-            .demo-preview {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="demo-container">
-        <h1>🎨 PREVIEW DE MEJORAS VISUALES</h1>
+      <h1>🎨 PREVIEW DE MEJORAS VISUALES</h1>
 
-        <!-- DEMO 1 -->
-        <div class="demo-section">
-            <h2 class="demo-title">1. Botones con Profundidad 3D y Efecto Ripple</h2>
-            <p class="demo-description">
-                Gradiente de iluminación más realista + efecto de onda al hacer clic. 
-                <strong>Haz clic en el botón para ver el efecto ripple!</strong>
-            </p>
-            <div class="demo-preview">
-                <button class="button-3d with-ripple" onclick="this.classList.add('ripple-active'); setTimeout(() => this.classList.remove('ripple-active'), 600)">
-                    INICIAR
-                </button>
-            </div>
+      <!-- DEMO 1 -->
+      <div class="demo-section">
+        <h2 class="demo-title">
+          1. Botones con Profundidad 3D y Efecto Ripple
+        </h2>
+        <p class="demo-description">
+          Gradiente de iluminación más realista + efecto de onda al hacer clic.
+          <strong>Haz clic en el botón para ver el efecto ripple!</strong>
+        </p>
+        <div class="demo-preview">
+          <button
+            class="button-3d with-ripple"
+            onclick="
+              this.classList.add('ripple-active');
+              setTimeout(() => this.classList.remove('ripple-active'), 600);
+            "
+          >
+            INICIAR
+          </button>
         </div>
+      </div>
 
-        <!-- DEMO 2 -->
-        <div class="demo-section">
-            <h2 class="demo-title">2. LED Indicators con Efecto Cristal</h2>
-            <p class="demo-description">
-                Reflexión de luz realista que simula un LED de verdad con superficie reflectante.
-            </p>
-            <div class="demo-preview">
-                <div class="comparison">
-                    <div class="comparison-item">
-                        <div class="comparison-label">ANTES</div>
-                        <div class="led-demo">
-                            <div class="led-container">
-                                <span class="led-label">RED</span>
-                                <div class="led-old led-red-old"></div>
-                            </div>
-                            <div class="led-container">
-                                <span class="led-label">BLUE</span>
-                                <div class="led-old led-blue-old"></div>
-                            </div>
-                            <div class="led-container">
-                                <span class="led-label">GREEN</span>
-                                <div class="led-old led-green-old"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comparison-item">
-                        <div class="comparison-label">DESPUÉS</div>
-                        <div class="led-demo">
-                            <div class="led-container">
-                                <span class="led-label">RED</span>
-                                <div class="led-new led-red-new"></div>
-                            </div>
-                            <div class="led-container">
-                                <span class="led-label">BLUE</span>
-                                <div class="led-new led-blue-new"></div>
-                            </div>
-                            <div class="led-container">
-                                <span class="led-label">GREEN</span>
-                                <div class="led-new led-green-new"></div>
-                            </div>
-                        </div>
-                    </div>
+      <!-- DEMO 2 -->
+      <div class="demo-section">
+        <h2 class="demo-title">2. LED Indicators con Efecto Cristal</h2>
+        <p class="demo-description">
+          Reflexión de luz realista que simula un LED de verdad con superficie
+          reflectante.
+        </p>
+        <div class="demo-preview">
+          <div class="comparison">
+            <div class="comparison-item">
+              <div class="comparison-label">ANTES</div>
+              <div class="led-demo">
+                <div class="led-container">
+                  <span class="led-label">RED</span>
+                  <div class="led-old led-red-old"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- DEMO 3 -->
-        <div class="demo-section">
-            <h2 class="demo-title">3. Timer Circular con Rotación y Pulso</h2>
-            <p class="demo-description">
-                Rotación lenta continua + efecto de pulso en segmentos activos para mejor feedback visual.
-            </p>
-            <div class="demo-preview">
-                <div class="timer-demo">
-                    <div class="timer-segments" id="timerSegments"></div>
-                    <div class="timer-center">5.2s</div>
+                <div class="led-container">
+                  <span class="led-label">BLUE</span>
+                  <div class="led-old led-blue-old"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- DEMO 4 -->
-        <div class="demo-section">
-            <h2 class="demo-title">4. Textura Metálica en Paneles</h2>
-            <p class="demo-description">
-                Líneas sutiles que simulan metal cepillado, añadiendo realismo industrial.
-            </p>
-            <div class="demo-preview">
-                <div class="panel-metallic">
-                    <div class="panel-content">PANEL INDUSTRIAL</div>
+                <div class="led-container">
+                  <span class="led-label">GREEN</span>
+                  <div class="led-old led-green-old"></div>
                 </div>
+              </div>
             </div>
-        </div>
-
-        <!-- DEMO 5 -->
-        <div class="demo-section">
-            <h2 class="demo-title">5. Botón con Efecto Sweep (Barrido de Luz)</h2>
-            <p class="demo-description">
-                Animación de luz deslizándose sobre el botón al hacer hover.
-            </p>
-            <div class="demo-preview">
-                <button class="button-sweep">INICIAR PROTOCOLO</button>
-            </div>
-        </div>
-
-        <!-- DEMO 6 -->
-        <div class="demo-section">
-            <h2 class="demo-title">6. Aberración Cromática en Texto</h2>
-            <p class="demo-description">
-                Efecto de separación RGB para momentos críticos o de error.
-                <strong>Haz clic en el toggle para activar/desactivar!</strong>
-            </p>
-            <div class="demo-preview">
-                <div class="toggle-container">
-                    <span>ACTIVAR EFECTO:</span>
-                    <div class="toggle-switch" id="chromaticToggle" onclick="toggleChromatic()"></div>
+            <div class="comparison-item">
+              <div class="comparison-label">DESPUÉS</div>
+              <div class="led-demo">
+                <div class="led-container">
+                  <span class="led-label">RED</span>
+                  <div class="led-new led-red-new"></div>
                 </div>
-                <div class="chromatic-text" id="chromaticText" data-text="SYSTEM ERROR">SYSTEM ERROR</div>
-            </div>
-        </div>
-
-        <!-- DEMO 7 -->
-        <div class="demo-section">
-            <h2 class="demo-title">7. Scanlines Mejoradas en Monitor</h2>
-            <p class="demo-description">
-                Líneas horizontales más evidentes que simulan un monitor CRT retro.
-            </p>
-            <div class="demo-preview">
-                <div class="monitor-demo">
-                    <div class="monitor-text">PRESS THE BUTTON</div>
+                <div class="led-container">
+                  <span class="led-label">BLUE</span>
+                  <div class="led-new led-blue-new"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- DEMO 8 -->
-        <div class="demo-section">
-            <h2 class="demo-title">8. Botones Industriales con Energía Pulsante</h2>
-            <p class="demo-description">
-                Efecto de energía fluyendo en los bordes al hacer hover. 
-                <strong>Pasa el mouse sobre los botones!</strong>
-            </p>
-            <div class="demo-preview">
-                <div class="industrial-button">
-                    <div class="btn-led"></div>
-                    <div class="btn-label">SYSTEM A</div>
-                    <div style="font-size: 0.9em; letter-spacing: 2px; opacity: 0.6; color: #aaffdd;">RED</div>
+                <div class="led-container">
+                  <span class="led-label">GREEN</span>
+                  <div class="led-new led-green-new"></div>
                 </div>
-                <div class="industrial-button blue">
-                    <div class="btn-led"></div>
-                    <div class="btn-label">SYSTEM B</div>
-                    <div style="font-size: 0.9em; letter-spacing: 2px; opacity: 0.6; color: #aaffdd;">BLUE</div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
+      <!-- DEMO 3 -->
+      <div class="demo-section">
+        <h2 class="demo-title">3. Timer Circular con Rotación y Pulso</h2>
+        <p class="demo-description">
+          Rotación lenta continua + efecto de pulso en segmentos activos para
+          mejor feedback visual.
+        </p>
+        <div class="demo-preview">
+          <div class="timer-demo">
+            <div class="timer-segments" id="timerSegments"></div>
+            <div class="timer-center">5.2s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 4 -->
+      <div class="demo-section">
+        <h2 class="demo-title">4. Textura Metálica en Paneles</h2>
+        <p class="demo-description">
+          Líneas sutiles que simulan metal cepillado, añadiendo realismo
+          industrial.
+        </p>
+        <div class="demo-preview">
+          <div class="panel-metallic">
+            <div class="panel-content">PANEL INDUSTRIAL</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 5 -->
+      <div class="demo-section">
+        <h2 class="demo-title">5. Botón con Efecto Sweep (Barrido de Luz)</h2>
+        <p class="demo-description">
+          Animación de luz deslizándose sobre el botón al hacer hover.
+        </p>
+        <div class="demo-preview">
+          <button class="button-sweep">INICIAR PROTOCOLO</button>
+        </div>
+      </div>
+
+      <!-- DEMO 6 -->
+      <div class="demo-section">
+        <h2 class="demo-title">6. Aberración Cromática en Texto</h2>
+        <p class="demo-description">
+          Efecto de separación RGB para momentos críticos o de error.
+          <strong>Haz clic en el toggle para activar/desactivar!</strong>
+        </p>
+        <div class="demo-preview">
+          <div class="toggle-container">
+            <span>ACTIVAR EFECTO:</span>
+            <div
+              class="toggle-switch"
+              id="chromaticToggle"
+              onclick="toggleChromatic()"
+            ></div>
+          </div>
+          <div
+            class="chromatic-text"
+            id="chromaticText"
+            data-text="SYSTEM ERROR"
+          >
+            SYSTEM ERROR
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 7 -->
+      <div class="demo-section">
+        <h2 class="demo-title">7. Scanlines Mejoradas en Monitor</h2>
+        <p class="demo-description">
+          Líneas horizontales más evidentes que simulan un monitor CRT retro.
+        </p>
+        <div class="demo-preview">
+          <div class="monitor-demo">
+            <div class="monitor-text">PRESS THE BUTTON</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 8 -->
+      <div class="demo-section">
+        <h2 class="demo-title">8. Botones Industriales con Energía Pulsante</h2>
+        <p class="demo-description">
+          Efecto de energía fluyendo en los bordes al hacer hover.
+          <strong>Pasa el mouse sobre los botones!</strong>
+        </p>
+        <div class="demo-preview">
+          <div class="industrial-button">
+            <div class="btn-led"></div>
+            <div class="btn-label">SYSTEM A</div>
+            <div
+              style="
+                font-size: 0.9em;
+                letter-spacing: 2px;
+                opacity: 0.6;
+                color: #aaffdd;
+              "
+            >
+              RED
+            </div>
+          </div>
+          <div class="industrial-button blue">
+            <div class="btn-led"></div>
+            <div class="btn-label">SYSTEM B</div>
+            <div
+              style="
+                font-size: 0.9em;
+                letter-spacing: 2px;
+                opacity: 0.6;
+                color: #aaffdd;
+              "
+            >
+              BLUE
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Crear segmentos del timer
-        const timerSegments = document.getElementById('timerSegments');
-        const numSegments = 24;
-        for (let i = 0; i < numSegments; i++) {
-            const segment = document.createElement('div');
-            segment.className = 'timer-segment';
-            const angle = (360 / numSegments) * i;
-            const radius = 90;
-            const x = 100 + radius * Math.cos((angle - 90) * Math.PI / 180);
-            const y = 100 + radius * Math.sin((angle - 90) * Math.PI / 180);
-            segment.style.left = `${x - 10}px`;
-            segment.style.top = `${y - 4}px`;
-            segment.style.transform = `rotate(${angle}deg)`;
-            timerSegments.appendChild(segment);
-        }
+      // Crear segmentos del timer
+      const timerSegments = document.getElementById("timerSegments");
+      const numSegments = 24;
+      for (let i = 0; i < numSegments; i++) {
+        const segment = document.createElement("div");
+        segment.className = "timer-segment";
+        const angle = (360 / numSegments) * i;
+        const radius = 90;
+        const x = 100 + radius * Math.cos(((angle - 90) * Math.PI) / 180);
+        const y = 100 + radius * Math.sin(((angle - 90) * Math.PI) / 180);
+        segment.style.left = `${x - 10}px`;
+        segment.style.top = `${y - 4}px`;
+        segment.style.transform = `rotate(${angle}deg)`;
+        timerSegments.appendChild(segment);
+      }
 
-        // Toggle aberración cromática
-        function toggleChromatic() {
-            const toggle = document.getElementById('chromaticToggle');
-            const text = document.getElementById('chromaticText');
-            toggle.classList.toggle('active');
-            text.classList.toggle('active');
-        }
+      // Toggle aberración cromática
+      function toggleChromatic() {
+        const toggle = document.getElementById("chromaticToggle");
+        const text = document.getElementById("chromaticText");
+        toggle.classList.toggle("active");
+        text.classList.toggle("active");
+      }
     </script>
-</body>
+  </body>
 </html>

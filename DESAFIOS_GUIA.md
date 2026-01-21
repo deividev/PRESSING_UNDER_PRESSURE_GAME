@@ -1,7 +1,9 @@
 # Gestión de Desafíos del Juego
 
 ## 📁 Archivo de Desafíos
+
 Los desafíos del juego ahora están centralizados en:
+
 ```
 src/app/components/game/game-challenges.ts
 ```
@@ -20,6 +22,7 @@ Cada desafío tiene la siguiente estructura:
 ```
 
 ### Parámetros de la función `check`:
+
 - **red**: Número de veces que se presionó el botón rojo
 - **blue**: Número de veces que se presionó el botón azul
 - **return**: `true` si el desafío fue completado, `false` si falló
@@ -27,6 +30,7 @@ Cada desafío tiene la siguiente estructura:
 ## ➕ Añadir Nuevos Desafíos
 
 ### Ejemplo 1: Desafío Simple
+
 ```typescript
 {
   text: "PRESIONA ROJO 10 VECES",
@@ -37,6 +41,7 @@ Cada desafío tiene la siguiente estructura:
 ```
 
 ### Ejemplo 2: Desafío Complejo
+
 ```typescript
 {
   text: "PRESIONA AMBOS EL MISMO NÚMERO DE VECES",
@@ -47,6 +52,7 @@ Cada desafío tiene la siguiente estructura:
 ```
 
 ### Ejemplo 3: Desafío con Lógica Avanzada
+
 ```typescript
 {
   text: "PRESIONA UN NÚMERO PAR DE VECES",
@@ -63,22 +69,23 @@ Cada desafío tiene la siguiente estructura:
 
 El juego tiene **6 categorías** de desafíos:
 
-| Categoría | Descripción | Total |
-|-----------|-------------|-------|
-| `no-press` | No presionar ningún botón | 6 |
-| `single-button` | Presionar solo un botón | 8 |
-| `multiple-presses` | Presionar múltiples veces | 10 |
-| `both-buttons` | Presionar ambos botones | 8 |
-| `confusing` | Instrucciones confusas/negativas | 12 |
-| `total-count` | Conteos totales específicos | 6 |
+| Categoría          | Descripción                      | Total |
+| ------------------ | -------------------------------- | ----- |
+| `no-press`         | No presionar ningún botón        | 6     |
+| `single-button`    | Presionar solo un botón          | 8     |
+| `multiple-presses` | Presionar múltiples veces        | 10    |
+| `both-buttons`     | Presionar ambos botones          | 8     |
+| `confusing`        | Instrucciones confusas/negativas | 12    |
+| `total-count`      | Conteos totales específicos      | 6     |
 
 **Total de desafíos:** 50
 
 ## 🛠️ Utilidades Disponibles
 
 ### Obtener Estadísticas
+
 ```typescript
-import { ChallengeUtils } from './game-challenges';
+import { ChallengeUtils } from "./game-challenges";
 
 const stats = ChallengeUtils.getStats();
 console.log(stats);
@@ -86,16 +93,19 @@ console.log(stats);
 ```
 
 ### Filtrar por Categoría
+
 ```typescript
-const noPressChallenges = ChallengeUtils.getByCategory('no-press');
+const noPressChallenges = ChallengeUtils.getByCategory("no-press");
 ```
 
 ### Obtener Desafío Aleatorio
+
 ```typescript
 const randomChallenge = ChallengeUtils.getRandom();
 ```
 
 ### Obtener Múltiples Aleatorios
+
 ```typescript
 const challenges = ChallengeUtils.getRandomMultiple(10);
 ```
@@ -103,6 +113,7 @@ const challenges = ChallengeUtils.getRandomMultiple(10);
 ## 📝 Guía Paso a Paso: Añadir un Desafío
 
 1. **Abre el archivo:**
+
    ```
    src/app/components/game/game-challenges.ts
    ```
@@ -110,6 +121,7 @@ const challenges = ChallengeUtils.getRandomMultiple(10);
 2. **Localiza el array `GAME_CHALLENGES`**
 
 3. **Elige una categoría existente o crea una nueva sección:**
+
    ```typescript
    // ============================================
    // CATEGORÍA: NUEVA CATEGORÍA
@@ -117,6 +129,7 @@ const challenges = ChallengeUtils.getRandomMultiple(10);
    ```
 
 4. **Añade tu desafío:**
+
    ```typescript
    {
      text: "TU INSTRUCCIÓN",

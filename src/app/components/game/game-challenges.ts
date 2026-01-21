@@ -1,15 +1,15 @@
 /**
  * DESAFÍOS DEL JUEGO - PRESSING UNDER PRESSURE
- * 
+ *
  * Este archivo contiene todas las acciones/desafíos posibles del juego.
  * Puedes agregar, modificar o eliminar desafíos fácilmente desde aquí.
- * 
+ *
  * Estructura de un desafío:
  * - text: El texto que se muestra en pantalla
  * - check: Función que verifica si el desafío se completó correctamente
  * - difficulty: Dificultad base del desafío (1=fácil, 2=medio, 3=difícil)
  * - category: Categoría para organización
- * 
+ *
  * NOTA: El tiempo se calcula automáticamente según la ronda y la dificultad
  */
 
@@ -25,12 +25,15 @@ export interface Challenge {
 /**
  * Calcula el tiempo disponible para un desafío según la ronda actual
  * El tiempo disminuye progresivamente mientras avanzas en el juego
- * 
+ *
  * @param difficulty - Dificultad del desafío (1-5)
  * @param round - Número de ronda actual
  * @returns Tiempo en milisegundos
  */
-export function calculateChallengeTime(difficulty: ChallengeDifficulty, round: number): number {
+export function calculateChallengeTime(
+  difficulty: ChallengeDifficulty,
+  round: number,
+): number {
   // Tiempo base según dificultad
   const baseTime = {
     1: 3500, // Muy fácil: 3.5 segundos
@@ -413,10 +416,13 @@ export class ChallengeUtils {
     return {
       total: GAME_CHALLENGES.length,
       categories: Array.from(categories),
-      byCategory: Array.from(categories).reduce((acc, cat) => {
-        acc[cat!] = GAME_CHALLENGES.filter((c) => c.category === cat).length;
-        return acc;
-      }, {} as Record<string, number>),
+      byCategory: Array.from(categories).reduce(
+        (acc, cat) => {
+          acc[cat!] = GAME_CHALLENGES.filter((c) => c.category === cat).length;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
     };
   }
 }

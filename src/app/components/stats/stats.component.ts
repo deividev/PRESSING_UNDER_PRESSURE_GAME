@@ -1,24 +1,27 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PlayerStatsService, PlayerStats } from '../../services/player-stats.service';
-import { TranslationService } from '../../services/translation.service';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  PlayerStatsService,
+  PlayerStats,
+} from "../../services/player-stats.service";
+import { TranslationService } from "../../services/translation.service";
 
 @Component({
-  selector: 'app-stats',
+  selector: "app-stats",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './stats.component.html',
-  styleUrl: './stats.component.scss'
+  templateUrl: "./stats.component.html",
+  styleUrl: "./stats.component.scss",
 })
 export class StatsComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
-  
+
   stats: PlayerStats | null = null;
   Math = Math; // Expose Math to template
 
   constructor(
     private statsService: PlayerStatsService,
-    public translationService: TranslationService
+    public translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -39,12 +42,16 @@ export class StatsComponent implements OnInit {
   }
 
   formatLastPlayed(date: Date | null): string {
-    if (!date) return this.translationService.translate('stats.performance.lastPlayed');
-    return new Date(date).toLocaleDateString(this.translationService.getCurrentLanguage() === 'es' ? 'es-ES' : 'en-US', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
+    if (!date)
+      return this.translationService.translate("stats.performance.lastPlayed");
+    return new Date(date).toLocaleDateString(
+      this.translationService.getCurrentLanguage() === "es" ? "es-ES" : "en-US",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      },
+    );
   }
 
   closeStats(): void {

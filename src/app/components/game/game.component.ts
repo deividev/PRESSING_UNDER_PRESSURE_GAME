@@ -5,9 +5,19 @@ import {
   EventEmitter,
   Output,
 } from "@angular/core";
-import { Challenge, GAME_CHALLENGES, calculateChallengeTime } from "./game-challenges";
-import { PlayerStatsService, GameSession } from "../../services/player-stats.service";
-import { AchievementsService, Achievement } from "../../services/achievements.service";
+import {
+  Challenge,
+  GAME_CHALLENGES,
+  calculateChallengeTime,
+} from "./game-challenges";
+import {
+  PlayerStatsService,
+  GameSession,
+} from "../../services/player-stats.service";
+import {
+  AchievementsService,
+  Achievement,
+} from "../../services/achievements.service";
 import { SettingsService } from "../../services/settings.service";
 import { TranslationService } from "../../services/translation.service";
 
@@ -102,7 +112,7 @@ export class GameComponent implements OnInit, OnDestroy {
     private statsService: PlayerStatsService,
     private achievementsService: AchievementsService,
     private settingsService: SettingsService,
-    public translationService: TranslationService
+    public translationService: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -163,11 +173,13 @@ export class GameComponent implements OnInit, OnDestroy {
         .play()
         .then(() => {
           this.musicStarted = true;
-          console.log('Música de fondo iniciada correctamente');
+          console.log("Música de fondo iniciada correctamente");
         })
         .catch((err) => {
           console.warn("Error al reproducir música de fondo:", err);
-          console.log("La música se iniciará con la primera interacción del usuario");
+          console.log(
+            "La música se iniciará con la primera interacción del usuario",
+          );
         });
     }
     this.musicStarted = false;
@@ -356,7 +368,10 @@ export class GameComponent implements OnInit, OnDestroy {
       this.challenges[Math.floor(Math.random() * this.challenges.length)];
 
     // Cálculo dinámico de tiempo basado en dificultad y ronda, ajustado por settings
-    const baseTime = calculateChallengeTime(this.currentChallenge.difficulty, this.round);
+    const baseTime = calculateChallengeTime(
+      this.currentChallenge.difficulty,
+      this.round,
+    );
     const difficultyModifier = this.settingsService.getDifficultyModifier();
     const finalTime = Math.round(baseTime * difficultyModifier);
 
@@ -441,11 +456,14 @@ export class GameComponent implements OnInit, OnDestroy {
     const reactionTime = Date.now() - this.roundStartTime;
     this.totalReactionTimes.push(reactionTime);
 
-    if (this.currentChallenge && this.currentChallenge.check(this.redPresses, this.bluePresses)) {
+    if (
+      this.currentChallenge &&
+      this.currentChallenge.check(this.redPresses, this.bluePresses)
+    ) {
       // Respuesta correcta
       this.correctAnswers++;
       this.currentStreak++;
-      
+
       if (this.currentStreak > this.longestStreak) {
         this.longestStreak = this.currentStreak;
       }
@@ -464,7 +482,7 @@ export class GameComponent implements OnInit, OnDestroy {
       // Respuesta incorrecta
       this.incorrectAnswers++;
       this.currentStreak = 0;
-      
+
       this.playSound("ROUND_FAIL");
       this.triggerShake();
       this.triggerGlitch(500);
@@ -499,23 +517,21 @@ export class GameComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showGameOverAnimation = false;
       this.gameOverVisible = true;
-    // Intentar reproducir música de fondo si aún no ha comenzado
-    if (!this.musicStarted && this.gameActive) {
-      this.playBackgroundMusic();
-    }
-
+      // Intentar reproducir música de fondo si aún no ha comenzado
+      if (!this.musicStarted && this.gameActive) {
+        this.playBackgroundMusic();
+      }
     }, 2000);
   }
 
   onRedButtonClick(event?: MouseEvent) {
     if (!this.gameActive) return;
     this.redPresses++;
-// Intentar reproducir música de fondo si aún no ha comenzado
+    // Intentar reproducir música de fondo si aún no ha comenzado
     if (!this.musicStarted && this.gameActive) {
       this.playBackgroundMusic();
     }
 
-    
     this.playSound("BUTTON_RED");
 
     if (event) {
@@ -559,10 +575,13 @@ export class GameComponent implements OnInit, OnDestroy {
   private saveGameSession(): void {
     const gameDuration = Math.floor((Date.now() - this.gameStartTime) / 1000);
     const totalRounds = this.correctAnswers + this.incorrectAnswers;
-    const accuracy = totalRounds > 0 ? (this.correctAnswers / totalRounds) * 100 : 0;
-    const avgReactionTime = this.totalReactionTimes.length > 0 
-      ? this.totalReactionTimes.reduce((a, b) => a + b, 0) / this.totalReactionTimes.length 
-      : 0;
+    const accuracy =
+      totalRounds > 0 ? (this.correctAnswers / totalRounds) * 100 : 0;
+    const avgReactionTime =
+      this.totalReactionTimes.length > 0
+        ? this.totalReactionTimes.reduce((a, b) => a + b, 0) /
+          this.totalReactionTimes.length
+        : 0;
 
     const session: GameSession = {
       score: this.score,
@@ -571,7 +590,7 @@ export class GameComponent implements OnInit, OnDestroy {
       averageReactionTime: Math.round(avgReactionTime),
       longestStreak: this.longestStreak,
       date: new Date(),
-      duration: gameDuration
+      duration: gameDuration,
     };
 
     // Guardar sesión
@@ -583,7 +602,7 @@ export class GameComponent implements OnInit, OnDestroy {
       totalRounds,
       accuracy,
       this.longestStreak,
-      avgReactionTime
+      avgReactionTime,
     );
 
     // Mostrar notificación de logros si hay nuevos

@@ -1,7 +1,13 @@
-import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslationService } from '../../services/translation.service';
-import { Subscription } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  OnInit,
+  OnDestroy,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { TranslationService } from "../../services/translation.service";
+import { Subscription } from "rxjs";
 
 interface TutorialStep {
   title: string;
@@ -11,11 +17,11 @@ interface TutorialStep {
 }
 
 @Component({
-  selector: 'app-tutorial',
+  selector: "app-tutorial",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './tutorial.component.html',
-  styleUrl: './tutorial.component.scss'
+  templateUrl: "./tutorial.component.html",
+  styleUrl: "./tutorial.component.scss",
 })
 export class TutorialComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
@@ -30,9 +36,11 @@ export class TutorialComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadSteps();
     // Subscribe to language changes
-    this.langSubscription = this.translationService.getLanguage$().subscribe(() => {
-      this.loadSteps();
-    });
+    this.langSubscription = this.translationService
+      .getLanguage$()
+      .subscribe(() => {
+        this.loadSteps();
+      });
   }
 
   ngOnDestroy(): void {
@@ -42,53 +50,93 @@ export class TutorialComponent implements OnInit, OnDestroy {
   loadSteps(): void {
     this.steps = [
       {
-        title: this.translationService.translate('tutorial.steps.welcome.title'),
-        description: this.translationService.translate('tutorial.steps.welcome.description'),
-        example: this.translationService.translate('tutorial.steps.welcome.example'),
-        icon: '🎯'
+        title: this.translationService.translate(
+          "tutorial.steps.welcome.title",
+        ),
+        description: this.translationService.translate(
+          "tutorial.steps.welcome.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.welcome.example",
+        ),
+        icon: "🎯",
       },
       {
-        title: this.translationService.translate('tutorial.steps.objective.title'),
-        description: this.translationService.translate('tutorial.steps.objective.description'),
-        example: this.translationService.translate('tutorial.steps.objective.example'),
-        icon: '🎮'
+        title: this.translationService.translate(
+          "tutorial.steps.objective.title",
+        ),
+        description: this.translationService.translate(
+          "tutorial.steps.objective.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.objective.example",
+        ),
+        icon: "🎮",
       },
       {
-        title: this.translationService.translate('tutorial.steps.controls.title'),
-        description: this.translationService.translate('tutorial.steps.controls.description'),
-        example: this.translationService.translate('tutorial.steps.controls.example'),
-        icon: '✨'
+        title: this.translationService.translate(
+          "tutorial.steps.controls.title",
+        ),
+        description: this.translationService.translate(
+          "tutorial.steps.controls.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.controls.example",
+        ),
+        icon: "✨",
       },
       {
-        title: this.translationService.translate('tutorial.steps.time.title'),
-        description: this.translationService.translate('tutorial.steps.time.description'),
-        example: this.translationService.translate('tutorial.steps.time.example'),
-        icon: '⏱️'
+        title: this.translationService.translate("tutorial.steps.time.title"),
+        description: this.translationService.translate(
+          "tutorial.steps.time.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.time.example",
+        ),
+        icon: "⏱️",
       },
       {
-        title: this.translationService.translate('tutorial.steps.streak.title'),
-        description: this.translationService.translate('tutorial.steps.streak.description'),
-        example: this.translationService.translate('tutorial.steps.streak.example'),
-        icon: '⭐'
+        title: this.translationService.translate("tutorial.steps.streak.title"),
+        description: this.translationService.translate(
+          "tutorial.steps.streak.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.streak.example",
+        ),
+        icon: "⭐",
       },
       {
-        title: this.translationService.translate('tutorial.steps.difficulty.title'),
-        description: this.translationService.translate('tutorial.steps.difficulty.description'),
-        example: this.translationService.translate('tutorial.steps.difficulty.example'),
-        icon: '🧠'
+        title: this.translationService.translate(
+          "tutorial.steps.difficulty.title",
+        ),
+        description: this.translationService.translate(
+          "tutorial.steps.difficulty.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.difficulty.example",
+        ),
+        icon: "🧠",
       },
       {
-        title: this.translationService.translate('tutorial.steps.lives.title'),
-        description: this.translationService.translate('tutorial.steps.lives.description'),
-        example: this.translationService.translate('tutorial.steps.lives.example'),
-        icon: '💥'
+        title: this.translationService.translate("tutorial.steps.lives.title"),
+        description: this.translationService.translate(
+          "tutorial.steps.lives.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.lives.example",
+        ),
+        icon: "💥",
       },
       {
-        title: this.translationService.translate('tutorial.steps.ready.title'),
-        description: this.translationService.translate('tutorial.steps.ready.description'),
-        example: this.translationService.translate('tutorial.steps.ready.example'),
-        icon: '🔥'
-      }
+        title: this.translationService.translate("tutorial.steps.ready.title"),
+        description: this.translationService.translate(
+          "tutorial.steps.ready.description",
+        ),
+        example: this.translationService.translate(
+          "tutorial.steps.ready.example",
+        ),
+        icon: "🔥",
+      },
     ];
   }
 

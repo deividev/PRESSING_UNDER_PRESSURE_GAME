@@ -1,4 +1,4 @@
-@import '../shared-modal-styles';
+@import "../shared-modal-styles";
 
 .tutorial-overlay {
   @include modal-overlay;
@@ -34,17 +34,26 @@
   position: relative;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
     animation: shimmer 2s infinite;
   }
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .step-counter {
@@ -82,7 +91,9 @@
   font-weight: bold;
   color: #00ff88;
   margin-bottom: 20px;
-  text-shadow: 0 0 20px rgba(0, 255, 136, 0.8), 0 0 40px rgba(0, 255, 136, 0.4);
+  text-shadow:
+    0 0 20px rgba(0, 255, 136, 0.8),
+    0 0 40px rgba(0, 255, 136, 0.4);
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -104,7 +115,7 @@
   padding: 15px 20px;
   border-radius: 4px;
   color: #00ffaa;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 0.95rem;
   margin-top: 20px;
   text-align: left;
@@ -134,7 +145,7 @@
 .btn-secondary {
   background: linear-gradient(145deg, #3a4a5a, #2a3544);
   border: 2px solid #4a5a6a;
-  
+
   &:disabled {
     opacity: 0.3;
     cursor: not-allowed;
@@ -152,7 +163,10 @@
   &:hover {
     border-color: #ff6b6b;
     color: #ff6b6b;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 107, 107, 0.3);
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(255, 107, 107, 0.3);
   }
 }
 

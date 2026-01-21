@@ -5,7 +5,12 @@
       <div class="progress-bar">
         <div class="progress-fill" [style.width.%]="progress"></div>
       </div>
-      <span class="step-counter">{{ translationService.translate('tutorial.stepCounter', {current: currentStep + 1, total: steps.length}) }}</span>
+      <span class="step-counter">{{
+        translationService.translate("tutorial.stepCounter", {
+          current: currentStep + 1,
+          total: steps.length,
+        })
+      }}</span>
     </div>
 
     <!-- Content -->
@@ -20,24 +25,24 @@
 
     <!-- Navigation -->
     <div class="tutorial-navigation">
-      <button 
-        class="btn-secondary" 
+      <button
+        class="btn-secondary"
         (click)="previousStep()"
-        [disabled]="isFirstStep">
-        {{ translationService.translate('tutorial.previous') }}
+        [disabled]="isFirstStep"
+      >
+        {{ translationService.translate("tutorial.previous") }}
       </button>
-      
-      <button 
-        class="btn-skip" 
-        (click)="skipTutorial()"
-        *ngIf="!isLastStep">
-        {{ translationService.translate('tutorial.skip') }}
+
+      <button class="btn-skip" (click)="skipTutorial()" *ngIf="!isLastStep">
+        {{ translationService.translate("tutorial.skip") }}
       </button>
-      
-      <button 
-        class="btn-primary" 
-        (click)="nextStep()">
-        {{ isLastStep ? translationService.translate('tutorial.start') : translationService.translate('tutorial.next') }}
+
+      <button class="btn-primary" (click)="nextStep()">
+        {{
+          isLastStep
+            ? translationService.translate("tutorial.start")
+            : translationService.translate("tutorial.next")
+        }}
       </button>
     </div>
   </div>

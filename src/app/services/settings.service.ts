@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
+import { Injectable } from "@angular/core";
+import { StorageService } from "./storage.service";
 
-export type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'extreme';
+export type DifficultyLevel = "easy" | "normal" | "hard" | "extreme";
 
 export interface GameSettings {
   // Audio
@@ -33,10 +33,10 @@ export interface GameSettings {
  * Servicio para gestionar configuraciones del juego
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class SettingsService {
-  private readonly SETTINGS_KEY = 'game_settings';
+  private readonly SETTINGS_KEY = "game_settings";
   private settings: GameSettings;
 
   constructor(private storage: StorageService) {
@@ -47,7 +47,10 @@ export class SettingsService {
    * Carga las configuraciones guardadas
    */
   private loadSettings(): GameSettings {
-    const settings = this.storage.get<GameSettings>(this.SETTINGS_KEY, undefined);
+    const settings = this.storage.get<GameSettings>(
+      this.SETTINGS_KEY,
+      undefined,
+    );
     return settings || this.getDefaultSettings();
   }
 
@@ -61,7 +64,7 @@ export class SettingsService {
       sfxVolume: 70,
       musicEnabled: true,
       sfxEnabled: true,
-      difficulty: 'normal',
+      difficulty: "normal",
       particlesEnabled: true,
       chromaticAberrationEnabled: true,
       screenShakeEnabled: true,
@@ -69,7 +72,7 @@ export class SettingsService {
       highContrast: false,
       reducedMotion: false,
       showTutorial: true,
-      tutorialCompleted: false
+      tutorialCompleted: false,
     };
   }
 
@@ -93,13 +96,13 @@ export class SettingsService {
    */
   getDifficultyModifier(): number {
     switch (this.settings.difficulty) {
-      case 'easy':
+      case "easy":
         return 1.3; // 30% más de tiempo
-      case 'normal':
+      case "normal":
         return 1.0; // Tiempo normal
-      case 'hard':
+      case "hard":
         return 0.8; // 20% menos de tiempo
-      case 'extreme':
+      case "extreme":
         return 0.6; // 40% menos de tiempo
       default:
         return 1.0;
@@ -111,7 +114,9 @@ export class SettingsService {
    */
   getMusicVolume(): number {
     if (!this.settings.musicEnabled) return 0;
-    return (this.settings.musicVolume / 100) * (this.settings.masterVolume / 100);
+    return (
+      (this.settings.musicVolume / 100) * (this.settings.masterVolume / 100)
+    );
   }
 
   /**

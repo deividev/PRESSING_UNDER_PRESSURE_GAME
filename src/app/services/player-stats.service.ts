@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { StorageService } from './storage.service';
+import { Injectable } from "@angular/core";
+import { StorageService } from "./storage.service";
 
 export interface GameSession {
   score: number;
@@ -30,10 +30,10 @@ export interface PlayerStats {
  * Servicio para gestionar estadísticas del jugador
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class PlayerStatsService {
-  private readonly STATS_KEY = 'player_stats';
+  private readonly STATS_KEY = "player_stats";
   private readonly MAX_HISTORY = 50; // Guardar últimas 50 partidas
 
   constructor(private storage: StorageService) {}
@@ -76,14 +76,15 @@ export class PlayerStatsService {
     stats.totalIncorrect += incorrect;
 
     // Recalcular promedios
-    stats.averageAccuracy = (stats.totalCorrect / (stats.totalCorrect + stats.totalIncorrect)) * 100;
-    
+    stats.averageAccuracy =
+      (stats.totalCorrect / (stats.totalCorrect + stats.totalIncorrect)) * 100;
+
     // Promedio de tiempo de reacción ponderado
     const totalSessions = stats.gamesHistory.length + 1;
-    stats.averageReactionTime = (
-      (stats.averageReactionTime * stats.gamesHistory.length + session.averageReactionTime) / 
-      totalSessions
-    );
+    stats.averageReactionTime =
+      (stats.averageReactionTime * stats.gamesHistory.length +
+        session.averageReactionTime) /
+      totalSessions;
 
     // Agregar a historial
     stats.gamesHistory.unshift(session);
@@ -99,9 +100,7 @@ export class PlayerStatsService {
    */
   getTopScores(limit: number = 10): GameSession[] {
     const stats = this.getStats();
-    return stats.gamesHistory
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+    return stats.gamesHistory.sort((a, b) => b.score - a.score).slice(0, limit);
   }
 
   /**
@@ -127,7 +126,7 @@ export class PlayerStatsService {
       longestStreak: 0,
       totalPlayTime: 0,
       lastPlayed: null,
-      gamesHistory: []
+      gamesHistory: [],
     };
   }
 }

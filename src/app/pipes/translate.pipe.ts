@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { TranslationService } from '../services/translation.service';
+import { Pipe, PipeTransform } from "@angular/core";
+import { TranslationService } from "../services/translation.service";
 
 @Pipe({
-  name: 'translate',
+  name: "translate",
   pure: false,
-  standalone: true
+  standalone: true,
 })
 export class TranslatePipe implements PipeTransform {
   constructor(private translationService: TranslationService) {}

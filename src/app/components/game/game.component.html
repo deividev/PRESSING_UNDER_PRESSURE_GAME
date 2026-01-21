@@ -1,50 +1,60 @@
-<div class="game-screen" 
-     [class.hidden]="gameOverVisible"
-     [class.shake]="isShaking"
-     [class.glitch]="isGlitching"
-     [class.chromatic-aberration]="showChromaticAberration">
-  
+<div
+  class="game-screen"
+  [class.hidden]="gameOverVisible"
+  [class.shake]="isShaking"
+  [class.glitch]="isGlitching"
+  [class.chromatic-aberration]="showChromaticAberration"
+>
   <!-- Partículas de fondo flotantes -->
   <div class="background-particles">
-    <div *ngFor="let particle of backgroundParticles"
-         class="bg-particle"
-         [class.pixel]="particle.isPixel"
-         [style.left.px]="particle.x"
-         [style.top.px]="particle.y"
-         [style.width.px]="particle.size"
-         [style.height.px]="particle.size"
-         [style.opacity]="particle.opacity">
-    </div>
+    <div
+      *ngFor="let particle of backgroundParticles"
+      class="bg-particle"
+      [class.pixel]="particle.isPixel"
+      [style.left.px]="particle.x"
+      [style.top.px]="particle.y"
+      [style.width.px]="particle.size"
+      [style.height.px]="particle.size"
+      [style.opacity]="particle.opacity"
+    ></div>
   </div>
-  
+
   <!-- Flash de pantalla -->
-  <div class="screen-flash" 
-       [class.flash-success]="screenFlash === 'success'"
-       [class.flash-error]="screenFlash === 'error'">
-  </div>
-  
+  <div
+    class="screen-flash"
+    [class.flash-success]="screenFlash === 'success'"
+    [class.flash-error]="screenFlash === 'error'"
+  ></div>
+
   <!-- Sistema de partículas -->
   <div class="particles-container">
-    <div *ngFor="let particle of particles"
-         class="particle"
-         [style.left.px]="particle.x"
-         [style.top.px]="particle.y"
-         [style.opacity]="particle.life"
-         [style.width.px]="particle.size"
-         [style.height.px]="particle.size"
-         [style.background-color]="particle.color">
-    </div>
+    <div
+      *ngFor="let particle of particles"
+      class="particle"
+      [style.left.px]="particle.x"
+      [style.top.px]="particle.y"
+      [style.opacity]="particle.life"
+      [style.width.px]="particle.size"
+      [style.height.px]="particle.size"
+      [style.background-color]="particle.color"
+    ></div>
   </div>
-  
+
   <!-- Chispas eléctricas para game over -->
   <div class="sparks-container" *ngIf="showSparks">
-    <div class="spark" *ngFor="let i of [1,2,3,4,5,6,7,8]" [class]="'spark spark-' + i"></div>
+    <div
+      class="spark"
+      *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8]"
+      [class]="'spark spark-' + i"
+    ></div>
   </div>
-  
+
   <!-- Header con puntuación -->
   <div class="game-header">
     <div class="stat">
-      <span class="stat-label">{{ translationService.translate('game.round') }}</span>
+      <span class="stat-label">{{
+        translationService.translate("game.round")
+      }}</span>
       <span class="stat-value">{{ formattedRound }}</span>
     </div>
     <div class="center-warning">
@@ -53,7 +63,9 @@
       <div class="warning-led red"></div>
     </div>
     <div class="stat">
-      <span class="stat-label">{{ translationService.translate('game.score') }}</span>
+      <span class="stat-label">{{
+        translationService.translate("game.score")
+      }}</span>
       <span class="stat-value">{{ formattedScore }}</span>
     </div>
   </div>
@@ -61,14 +73,15 @@
   <!-- Marco del monitor con timer circular -->
   <div class="monitor-container" [class.crt-distortion]="true">
     <div class="circular-timer">
-      <div *ngFor="let segment of segments" 
-           class="timer-segment-circle"
-           [class.active]="segment.active"
-           [class.inactive]="!segment.active"
-           [class.warning]="segment.warning"
-           [class.danger]="segment.danger"
-           [ngStyle]="segment.style">
-      </div>
+      <div
+        *ngFor="let segment of segments"
+        class="timer-segment-circle"
+        [class.active]="segment.active"
+        [class.inactive]="!segment.active"
+        [class.warning]="segment.warning"
+        [class.danger]="segment.danger"
+        [ngStyle]="segment.style"
+      ></div>
     </div>
     <div class="monitor-frame">
       <div class="monitor-screw tl"></div>
@@ -77,7 +90,9 @@
       <div class="monitor-screw br"></div>
       <div class="screen-scanline"></div>
       <div class="instruction-area">
-        <p id="instruction">{{ currentChallenge?.text || 'SYSTEM INITIALIZING...' }}</p>
+        <p id="instruction">
+          {{ currentChallenge?.text || "SYSTEM INITIALIZING..." }}
+        </p>
       </div>
     </div>
   </div>
@@ -122,15 +137,25 @@
         <div class="error-led"></div>
         <div class="error-led"></div>
       </div>
-      <h1 class="game-over-title">{{ translationService.translate('game.gameOver') }}</h1>
+      <h1 class="game-over-title">
+        {{ translationService.translate("game.gameOver") }}
+      </h1>
       <p class="game-over-reason">{{ gameOverReason }}</p>
       <div class="final-stats">
         <div class="final-stat">
-          <div class="stat-label">{{ translationService.translate('game.round') }}</div>
+          <div class="stat-label">
+            {{ translationService.translate("game.round") }}
+          </div>
           <div class="stat-value">{{ formattedRound }}</div>
         </div>
         <div class="final-stat">
-          <div class="stat-label">{{ translationService.translate('game.finalScore', {score: formattedScore}) }}</div>
+          <div class="stat-label">
+            {{
+              translationService.translate("game.finalScore", {
+                score: formattedScore,
+              })
+            }}
+          </div>
           <div class="stat-value">{{ formattedScore }}</div>
         </div>
       </div>
@@ -138,8 +163,12 @@
         <span class="status-indicator red blink"></span>
         <span class="status-text">AWAITING RESTART</span>
       </div>
-      <button class="main-button" (click)="goToMenu()">{{ translationService.translate('game.backToMenu') }}</button>
-      <button class="main-button primary" (click)="restartGame()">{{ translationService.translate('common.restart') }}</button>
+      <button class="main-button" (click)="goToMenu()">
+        {{ translationService.translate("game.backToMenu") }}
+      </button>
+      <button class="main-button primary" (click)="restartGame()">
+        {{ translationService.translate("common.restart") }}
+      </button>
     </div>
   </div>
 </div>
