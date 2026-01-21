@@ -1,0 +1,74 @@
+<div class="achievements-overlay">
+  <div class="achievements-container">
+    <div class="achievements-header">
+      <button class="btn-close-modal" (click)="closeAchievements()">✕</button>
+      <h2 class="achievements-title">🏆 {{ translationService.translate('achievements.title') }}</h2>
+    </div>
+
+    <!-- Progress Summary -->
+    <div class="progress-summary">
+      <div class="progress-info">
+        <span class="progress-text">{{ translationService.translate('achievements.progress', {current: totalUnlocked, total: totalAchievements}) }}</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" [style.width.%]="completionPercentage"></div>
+      </div>
+      <span class="progress-percentage">{{ completionPercentage.toFixed(0) }}%</span>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-tabs">
+      <button class="category-tab" [class.active]="!showLocked" (click)="toggleLocked()">
+        ✨ {{ translationService.translate('achievements.unlocked') }}
+      </button>
+      <button class="category-tab" [class.active]="showLocked" (click)="toggleLocked()">
+        🔒 {{ translationService.translate('achievements.showAll') }}
+      </button>
+    </div>
+
+    <!-- Achievements List -->
+    <div class="achievements-content">
+      <!-- Unlocked Achievements -->
+      <div class="achievements-section" *ngIf="unlockedAchievements.length > 0">
+        <h3 class="section-title">✨ {{ translationService.translate('achievements.unlocked') }} ({{ unlockedAchievements.length }})</h3>
+        <div class="achievements-grid">
+          <div class="achievement-card unlocked" *ngFor="let achievement of unlockedAchievements">
+            <div class="achievement-icon">{{ achievement.icon }}</div>
+            <div class="achievement-info">
+              <h4 class="achievement-name">{{ achievement.name }}</h4>
+              <p class="achievement-description">{{ achievement.description }}</p>
+              <span class="achievement-date">📅 {{ formatDate(achievement.unlockedDate) }}</span>
+            </div>
+            <div class="achievement-badge">✔️</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Locked Achievements -->
+      <div class="achievements-section" *ngIf="showLocked && lockedAchievements.length > 0">
+        <h3 class="section-title">🔒 {{ translationService.translate('achievements.locked') }} ({{ lockedAchievements.length }})</h3>
+        <div class="achievements-grid">
+          <div class="achievement-card locked" *ngFor="let achievement of lockedAchievements">
+            <div class="achievement-icon locked-icon">{{ achievement.icon }}</div>
+            <div class="achievement-info">
+              <h4 class="achievement-name">{{ achievement.name }}</h4>
+              <p class="achievement-description">{{ achievement.description }}</p>
+              <div class="achievement-progress">
+                <div class="progress-bar-small">
+                  <div class="progress-fill-small" [style.width.%]="achievement.progress"></div>
+                </div>
+                <span class="progress-text-small">{{ achievement.progress }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Achievements -->
+      <div class="no-achievements" *ngIf="totalAchievements === 0">
+        <div class="empty-icon">🏆</div>
+        <p>{{ translationService.translate('achievements.empty') }}</p>
+      </div>
+    </div>
+  </div>
+</div>

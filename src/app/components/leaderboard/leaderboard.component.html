@@ -1,0 +1,38 @@
+<div class="leaderboard-overlay">
+  <div class="leaderboard-container">
+    <div class="leaderboard-header">
+      <button class="btn-close-modal" (click)="closeLeaderboard()">✕</button>
+      <h2 class="leaderboard-title">🏆 {{ translationService.translate('leaderboard.title') }}</h2>
+      <p class="leaderboard-subtitle">{{ translationService.translate('leaderboard.subtitle') }}</p>
+    </div>
+
+    <ul class="leaderboard-list">
+      <li class="empty-state" *ngIf="topScores.length === 0">
+        <div class="empty-icon">📊</div>
+        <p class="empty-message">{{ translationService.translate('leaderboard.empty') }}</p>
+        <p class="empty-hint">{{ translationService.translate('leaderboard.emptyHint') }}</p>
+      </li>
+
+      <li class="leaderboard-item" *ngFor="let session of topScores; let i = index" 
+          [class.top-1]="i === 0"
+          [class.top-2]="i === 1"
+          [class.top-3]="i === 2">
+        <div class="rank">
+          <span *ngIf="i >= 3">{{ i + 1 }}</span>
+          <span *ngIf="i === 0">🥇</span>
+          <span *ngIf="i === 1">🥈</span>
+          <span *ngIf="i === 2">🥉</span>
+        </div>
+        <div class="player-info">
+          <div class="player-name">{{ translationService.translate('leaderboard.player') }} {{ i + 1 }}</div>
+          <div class="game-details">
+            <span>⚡ {{ session.rounds }} {{ translationService.translate('leaderboard.rounds') }}</span>
+            <span>🎯 {{ session.accuracy }}%</span>
+            <span>{{ formatDate(session.date) }}</span>
+          </div>
+        </div>
+        <div class="score">{{ session.score }}</div>
+      </li>
+    </ul>
+  </div>
+</div>

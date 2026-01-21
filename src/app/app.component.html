@@ -1,0 +1,19 @@
+<div class="app-container">
+  <app-menu 
+    *ngIf="currentView === 'menu'" 
+    (startGame)="startGame()" 
+    (showInstructions)="showInstructions()">
+  </app-menu>
+  
+  <app-menu 
+    *ngIf="currentView === 'instructions'" 
+    [isInstructions]="true"
+    (startGame)="startGame()" 
+    (backToMenu)="backToMenu()">
+  </app-menu>
+  
+  <app-game 
+    *ngIf="currentView === 'game'" 
+    (backToMenu)="backToMenu()">
+  </app-game>
+</div>

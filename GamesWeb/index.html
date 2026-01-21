@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Pressure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="screen" id="menuScreen">
+        <div class="panel-frame">
+            <div class="screw top-left"></div>
+            <div class="screw top-right"></div>
+            <div class="screw bottom-left"></div>
+            <div class="screw bottom-right"></div>
+            <div class="content">
+                <div class="warning-strip">
+                    <div class="warning-light"></div>
+                    <div class="warning-light"></div>
+                    <div class="warning-light"></div>
+                </div>
+                <h1 class="main-title">CONTROL PANEL<br><span class="subtitle-system">SYSTEM OVERRIDE</span></h1>
+                <div class="status-bar">
+                    <span class="status-indicator green"></span>
+                    <span class="status-text">SYSTEM READY</span>
+                </div>
+                <button class="main-button" onclick="showInstructions()">INSTRUCCIONES</button>
+                <button class="main-button primary" onclick="startGame()">INICIAR PROTOCOLO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="screen hidden" id="instructionsScreen">
+        <div class="panel-frame">
+            <div class="screw top-left"></div>
+            <div class="screw top-right"></div>
+            <div class="screw bottom-left"></div>
+            <div class="screw bottom-right"></div>
+            <div class="content">
+                <h2 class="section-title">PROTOCOLO DE OPERACIÓN</h2>
+                <div class="instructions-text">
+                    <p><span class="inst-icon">▸</span> Lee las órdenes del sistema</p>
+                    <p><span class="inst-icon">▸</span> Tiempo limitado para actuar</p>
+                    <p><span class="inst-icon">▸</span> Botón ROJO o AZUL según protocolo</p>
+                    <p><span class="inst-icon">▸</span> Múltiples activaciones requeridas</p>
+                    <p><span class="inst-icon">▸</span> A veces NINGUNA acción es correcta</p>
+                    <p><span class="inst-icon">▸</span> Error = fallo del sistema</p>
+                </div>
+                <div class="status-bar">
+                    <span class="status-indicator yellow"></span>
+                    <span class="status-text">AWAITING INPUT</span>
+                </div>
+                <button class="main-button" onclick="backToMenu()">VOLVER</button>
+                <button class="main-button primary" onclick="startGame()">INICIAR PROTOCOLO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showInstructions() {
+            document.getElementById('menuScreen').classList.add('hidden');
+            document.getElementById('instructionsScreen').classList.remove('hidden');
+        }
+
+        function backToMenu() {
+            document.getElementById('instructionsScreen').classList.add('hidden');
+            document.getElementById('menuScreen').classList.remove('hidden');
+        }
+
+        function startGame() {
+            window.location.href = 'game.html';
+        }
+    </script>
+</body>
+</html>

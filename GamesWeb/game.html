@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Pressure - Juego</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="game-body">
+    <div class="game-screen">
+        <!-- Header con puntuación -->
+        <div class="game-header">
+            <div class="stat">
+                <span class="stat-label">PHASE</span>
+                <span class="stat-value" id="round">01</span>
+            </div>
+            <div class="center-warning">
+                <div class="warning-led red"></div>
+                <span class="warning-text">CRITICAL</span>
+                <div class="warning-led red"></div>
+            </div>
+            <div class="stat">
+                <span class="stat-label">SCORE</span>
+                <span class="stat-value" id="score">0000</span>
+            </div>
+        </div>
+
+        <!-- Marco del monitor con timer circular -->
+        <div class="monitor-container">
+            <div class="circular-timer" id="circularTimer">
+                <!-- Los segmentos se generarán dinámicamente con JavaScript -->
+            </div>
+            <div class="monitor-frame">
+                <div class="monitor-screw tl"></div>
+                <div class="monitor-screw tr"></div>
+                <div class="monitor-screw bl"></div>
+                <div class="monitor-screw br"></div>
+                <div class="screen-scanline"></div>
+                <div class="instruction-area">
+                    <p id="instruction">SYSTEM INITIALIZING...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicadores LED -->
+        <div class="timer-indicators">
+            <div class="timer-led green" id="led1"></div>
+            <div class="timer-led green" id="led2"></div>
+            <div class="timer-led yellow" id="led3"></div>
+            <div class="timer-led yellow" id="led4"></div>
+            <div class="timer-led red" id="led5"></div>
+        </div>
+
+        <!-- Botones industriales -->
+        <div class="buttons-area">
+            <button class="press-button red-btn" id="redButton">
+                <div class="button-frame">
+                    <div class="button-corner tl"></div>
+                    <div class="button-corner tr"></div>
+                    <div class="button-corner bl"></div>
+                    <div class="button-corner br"></div>
+                    <div class="button-led-indicator"></div>
+                    <span class="button-label">SYSTEM A</span>
+                    <span class="button-sublabel">RED</span>
+                </div>
+            </button>
+            <button class="press-button blue-btn" id="blueButton">
+                <div class="button-frame">
+                    <div class="button-corner tl"></div>
+                    <div class="button-corner tr"></div>
+                    <div class="button-corner bl"></div>
+                    <div class="button-corner br"></div>
+                    <div class="button-led-indicator"></div>
+                    <span class="button-label">SYSTEM B</span>
+                    <span class="button-sublabel">BLUE</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Game Over -->
+    <div class="screen hidden" id="gameOverScreen">
+        <div class="panel-frame error-frame">
+            <div class="screw top-left"></div>
+            <div class="screw top-right"></div>
+            <div class="screw bottom-left"></div>
+            <div class="screw bottom-right"></div>
+            <div class="content">
+                <div class="error-lights">
+                    <div class="error-led"></div>
+                    <div class="error-led"></div>
+                    <div class="error-led"></div>
+                </div>
+                <h1 class="game-over-title">SYSTEM FAILURE</h1>
+                <p class="game-over-reason" id="gameOverReason">CRITICAL ERROR</p>
+                <div class="final-stats">
+                    <div class="final-stat">
+                        <div class="stat-label">PHASE REACHED</div>
+                        <div class="stat-value" id="finalRound">00</div>
+                    </div>
+                    <div class="final-stat">
+                        <div class="stat-label">TOTAL SCORE</div>
+                        <div class="stat-value" id="finalScore">0000</div>
+                    </div>
+                </div>
+                <div class="status-bar error">
+                    <span class="status-indicator red blink"></span>
+                    <span class="status-text">AWAITING RESTART</span>
+                </div>
+                <button class="main-button" onclick="goToMenu()">MENU PRINCIPAL</button>
+                <button class="main-button primary" onclick="restartGame()">REINICIAR SISTEMA</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

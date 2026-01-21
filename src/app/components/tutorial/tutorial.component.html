@@ -1,0 +1,44 @@
+<div class="tutorial-overlay">
+  <div class="tutorial-container">
+    <!-- Header -->
+    <div class="tutorial-header">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress"></div>
+      </div>
+      <span class="step-counter">{{ translationService.translate('tutorial.stepCounter', {current: currentStep + 1, total: steps.length}) }}</span>
+    </div>
+
+    <!-- Content -->
+    <div class="tutorial-content">
+      <div class="step-icon">{{ steps[currentStep].icon }}</div>
+      <h2 class="step-title">{{ steps[currentStep].title }}</h2>
+      <p class="step-description">{{ steps[currentStep].description }}</p>
+      <div class="step-example" *ngIf="steps[currentStep].example">
+        {{ steps[currentStep].example }}
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="tutorial-navigation">
+      <button 
+        class="btn-secondary" 
+        (click)="previousStep()"
+        [disabled]="isFirstStep">
+        {{ translationService.translate('tutorial.previous') }}
+      </button>
+      
+      <button 
+        class="btn-skip" 
+        (click)="skipTutorial()"
+        *ngIf="!isLastStep">
+        {{ translationService.translate('tutorial.skip') }}
+      </button>
+      
+      <button 
+        class="btn-primary" 
+        (click)="nextStep()">
+        {{ isLastStep ? translationService.translate('tutorial.start') : translationService.translate('tutorial.next') }}
+      </button>
+    </div>
+  </div>
+</div>

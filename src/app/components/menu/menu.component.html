@@ -1,0 +1,73 @@
+<div class="screen" *ngIf="!isInstructions">
+  <div class="panel-frame">
+    <div class="screw top-left"></div>
+    <div class="screw top-right"></div>
+    <div class="screw bottom-left"></div>
+    <div class="screw bottom-right"></div>
+    <div class="content">
+      <div class="warning-strip">
+        <div class="warning-light"></div>
+        <div class="warning-light"></div>
+        <div class="warning-light"></div>
+      </div>
+      <h1 class="main-title">{{ translationService.translate('menu.title') }}<br><span class="subtitle-system">{{ translationService.translate('menu.subtitle') }}</span></h1>
+      <div class="status-bar">
+        <span class="status-indicator green"></span>
+        <span class="status-text">SYSTEM READY</span>
+      </div>
+      
+      <!-- Botones principales -->
+      <button class="main-button primary" (click)="onStartGame()" (mouseenter)="onButtonHover()">{{ translationService.translate('menu.playButton') }}</button>
+      <button class="main-button" (click)="onShowInstructions()" (mouseenter)="onButtonHover()">{{ translationService.translate('menu.tutorialButton') }}</button>
+      
+      <!-- Botones secundarios (nuevos) -->
+      <div class="secondary-buttons">
+        <button class="secondary-button" (click)="openLeaderboard()" (mouseenter)="onButtonHover()" [title]="translationService.translate('menu.leaderboardButton')">
+          🏆
+        </button>
+        <button class="secondary-button" (click)="openStats()" (mouseenter)="onButtonHover()" [title]="translationService.translate('menu.statsButton')">
+          📊
+        </button>
+        <button class="secondary-button" (click)="openAchievements()" (mouseenter)="onButtonHover()" [title]="translationService.translate('menu.achievementsButton')">
+          🎯
+        </button>
+        <button class="secondary-button" (click)="openSettings()" (mouseenter)="onButtonHover()" [title]="translationService.translate('menu.settingsButton')">
+          ⚙️
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen" *ngIf="isInstructions">
+  <div class="panel-frame">
+    <div class="screw top-left"></div>
+    <div class="screw top-right"></div>
+    <div class="screw bottom-left"></div>
+    <div class="screw bottom-right"></div>
+    <div class="content">
+      <h2 class="section-title">PROTOCOLO DE OPERACIÓN</h2>
+      <div class="instructions-text">
+        <p><span class="inst-icon">▸</span> Lee las órdenes del sistema</p>
+        <p><span class="inst-icon">▸</span> Tiempo limitado para actuar</p>
+        <p><span class="inst-icon">▸</span> Botón ROJO o AZUL según protocolo</p>
+        <p><span class="inst-icon">▸</span> Múltiples activaciones requeridas</p>
+        <p><span class="inst-icon">▸</span> A veces NINGUNA acción es correcta</p>
+        <p><span class="inst-icon">▸</span> Error = fallo del sistema</p>
+      </div>
+      <div class="status-bar">
+        <span class="status-indicator yellow"></span>
+        <span class="status-text">AWAITING INPUT</span>
+      </div>
+      <button class="main-button" (click)="onBackToMenu()" (mouseenter)="onButtonHover()">VOLVER</button>
+      <button class="main-button primary" (click)="onStartGame()" (mouseenter)="onButtonHover()">INICIAR PROTOCOLO</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modales -->
+<app-tutorial *ngIf="showTutorial" (close)="closeTutorial()" (skip)="skipTutorial()"></app-tutorial>
+<app-leaderboard *ngIf="showLeaderboard" (close)="closeLeaderboard()"></app-leaderboard>
+<app-stats *ngIf="showStats" (close)="closeStats()"></app-stats>
+<app-achievements *ngIf="showAchievements" (close)="closeAchievements()"></app-achievements>
+<app-settings *ngIf="showSettings" (close)="closeSettings()" (settingsChanged)="onSettingsChanged()"></app-settings>
