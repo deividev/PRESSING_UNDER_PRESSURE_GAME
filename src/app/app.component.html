@@ -1,19 +1,32 @@
 <div class="app-container">
-  <app-menu 
-    *ngIf="currentView === 'menu'" 
-    (startGame)="startGame()" 
-    (showInstructions)="showInstructions()">
+  <app-menu
+    *ngIf="currentView === 'menu'"
+    (startGame)="startGame()"
+    (showInstructions)="showInstructions()"
+  >
   </app-menu>
-  
-  <app-menu 
-    *ngIf="currentView === 'instructions'" 
+
+  <app-menu
+    *ngIf="currentView === 'instructions'"
     [isInstructions]="true"
-    (startGame)="startGame()" 
-    (backToMenu)="backToMenu()">
+    (startGame)="startGame()"
+    (backToMenu)="backToMenu()"
+  >
   </app-menu>
-  
-  <app-game 
-    *ngIf="currentView === 'game'" 
-    (backToMenu)="backToMenu()">
+
+  <app-game
+    *ngIf="currentView === 'game'"
+    (backToMenu)="backToMenu()"
+    (showVictory)="showVictory($event.finalRound, $event.finalScore)"
+  >
   </app-game>
+
+  <app-victory
+    *ngIf="currentView === 'victory'"
+    [finalRound]="victoryData.finalRound"
+    [finalScore]="victoryData.finalScore"
+    (backToMenu)="backToMenu()"
+    (playAgain)="startGame()"
+  >
+  </app-victory>
 </div>

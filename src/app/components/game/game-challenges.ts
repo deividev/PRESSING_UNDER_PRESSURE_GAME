@@ -34,21 +34,21 @@ export function calculateChallengeTime(
   difficulty: ChallengeDifficulty,
   round: number,
 ): number {
-  // Tiempo base según dificultad
+  // Tiempo base según dificultad (muy aumentados para dar tiempo físico a clicks múltiples)
   const baseTime = {
-    1: 3500, // Muy fácil: 3.5 segundos
-    2: 3000, // Fácil: 3 segundos
-    3: 2500, // Medio: 2.5 segundos
-    4: 2000, // Difícil: 2 segundos
-    5: 1500, // Muy difícil: 1.5 segundos
+    1: 6500, // Muy fácil: 6.5 segundos
+    2: 6000, // Fácil: 6 segundos
+    3: 5500, // Medio: 5.5 segundos
+    4: 5000, // Difícil: 5 segundos (para dar tiempo a múltiples clicks)
+    5: 4500, // Muy difícil: 4.5 segundos
   }[difficulty];
 
-  // Reducción de tiempo por ronda (más agresiva después de ronda 10)
-  const reductionPerRound = round <= 10 ? 50 : 100;
-  const maxReduction = baseTime - 1000; // Mínimo siempre 1 segundo
+  // Reducción de tiempo por ronda muy suave para mantener jugabilidad
+  const reductionPerRound = round <= 20 ? 30 : 60;
+  const maxReduction = baseTime - 2000; // Mínimo siempre 2 segundos
   const timeReduction = Math.min((round - 1) * reductionPerRound, maxReduction);
 
-  return Math.max(baseTime - timeReduction, 1000);
+  return Math.max(baseTime - timeReduction, 2000);
 }
 
 /**
@@ -379,6 +379,102 @@ export const GAME_CHALLENGES: Challenge[] = [
     check: (red, blue) => red + blue > 3,
     difficulty: 3,
     category: "total-count",
+  },
+
+  // ============================================
+  // CATEGORÍA: ALTA DIFICULTAD - COMBINACIONES COMPLEJAS (15 desafíos)
+  // ============================================
+  {
+    text: "ROJO 6 VECES",
+    check: (red, blue) => red === 6 && blue === 0,
+    difficulty: 5,
+    category: "extreme-presses",
+  },
+  {
+    text: "AZUL 6 VECES",
+    check: (red, blue) => blue === 6 && red === 0,
+    difficulty: 5,
+    category: "extreme-presses",
+  },
+  {
+    text: "ROJO 4 VECES, AZUL 3 VECES",
+    check: (red, blue) => red === 4 && blue === 3,
+    difficulty: 5,
+    category: "extreme-combination",
+  },
+  {
+    text: "AZUL 4 VECES, ROJO 3 VECES",
+    check: (red, blue) => blue === 4 && red === 3,
+    difficulty: 5,
+    category: "extreme-combination",
+  },
+  {
+    text: "TOTAL: 7 CLICS",
+    check: (red, blue) => red + blue === 7,
+    difficulty: 5,
+    category: "extreme-total",
+  },
+  {
+    text: "TOTAL: 8 CLICS",
+    check: (red, blue) => red + blue === 8,
+    difficulty: 5,
+    category: "extreme-total",
+  },
+  {
+    text: "ROJO PAR, AZUL IMPAR",
+    check: (red, blue) =>
+      red > 0 && blue > 0 && red % 2 === 0 && blue % 2 === 1,
+    difficulty: 5,
+    category: "math-logic",
+  },
+  {
+    text: "AZUL PAR, ROJO IMPAR",
+    check: (red, blue) =>
+      blue > 0 && red > 0 && blue % 2 === 0 && red % 2 === 1,
+    difficulty: 5,
+    category: "math-logic",
+  },
+  {
+    text: "MISMO NÚMERO EN AMBOS",
+    check: (red, blue) => red === blue && red > 0,
+    difficulty: 4,
+    category: "math-logic",
+  },
+  {
+    text: "ROJO DOBLE QUE AZUL",
+    check: (red, blue) => red === blue * 2 && blue > 0,
+    difficulty: 5,
+    category: "math-logic",
+  },
+  {
+    text: "AZUL DOBLE QUE ROJO",
+    check: (red, blue) => blue === red * 2 && red > 0,
+    difficulty: 5,
+    category: "math-logic",
+  },
+  {
+    text: "AMBOS AL MENOS 3 VECES",
+    check: (red, blue) => red >= 3 && blue >= 3,
+    difficulty: 5,
+    category: "extreme-combination",
+  },
+  {
+    text: "TOTAL PAR Y MÁS DE 4",
+    check: (red, blue) => (red + blue) % 2 === 0 && red + blue > 4,
+    difficulty: 4,
+    category: "math-logic",
+  },
+  {
+    text: "TOTAL IMPAR Y MÁS DE 4",
+    check: (red, blue) => (red + blue) % 2 === 1 && red + blue > 4,
+    difficulty: 4,
+    category: "math-logic",
+  },
+  {
+    text: "ROJO + AZUL = 6",
+    check: (red, blue) => red + blue === 6,
+    difficulty: 4,
+    category: "math-logic",
   },
 ];
 

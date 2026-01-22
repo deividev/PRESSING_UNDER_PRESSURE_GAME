@@ -83,6 +83,34 @@ body::before {
   animation: error-pulse 1s infinite;
 }
 
+.panel-frame.victory-frame {
+  border-color: #ffd700;
+  animation: victory-pulse 2s infinite;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.5),
+    0 10px 40px rgba(255, 215, 0, 0.5),
+    0 0 60px rgba(255, 215, 0, 0.4),
+    0 0 0 1px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes victory-pulse {
+  0%,
+  100% {
+    border-color: #ffd700;
+    box-shadow:
+      inset 0 2px 5px rgba(0, 0, 0, 0.5),
+      0 10px 40px rgba(255, 215, 0, 0.5),
+      0 0 60px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    border-color: #00ff88;
+    box-shadow:
+      inset 0 2px 5px rgba(0, 0, 0, 0.5),
+      0 10px 40px rgba(0, 255, 136, 0.5),
+      0 0 80px rgba(0, 255, 136, 0.6);
+  }
+}
+
 .content {
   text-align: center;
   position: relative;
@@ -218,6 +246,31 @@ body::before {
 }
 .status-indicator.blink {
   animation: blink 0.8s infinite;
+}
+.status-indicator.pulse {
+  animation: victory-indicator-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes victory-indicator-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px #00ff88;
+  }
+  50% {
+    transform: scale(1.5);
+    box-shadow:
+      0 0 30px #00ff88,
+      0 0 45px rgba(0, 255, 136, 0.5);
+  }
+}
+
+.status-bar.success {
+  border-color: rgba(255, 215, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.3),
+    inset 0 0 10px rgba(255, 215, 0, 0.1);
 }
 
 .status-text {
@@ -518,6 +571,631 @@ body::before {
   }
   50% {
     transform: scale(1.05);
+  }
+}
+
+/* ======================================
+   TIMER BARRA HORIZONTAL PROFESIONAL
+   ====================================== */
+
+.timer-bar-container {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 8px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.timer-bar {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer-bar-segment {
+  flex: 1;
+  height: 8px;
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 1px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-out;
+  position: relative;
+}
+
+.timer-bar-segment.active {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 136, 1) 0%,
+    rgba(0, 255, 136, 0.8) 100%
+  );
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow:
+    0 0 8px rgba(0, 255, 136, 0.6),
+    0 0 4px rgba(0, 255, 136, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  animation: timer-bar-glow 2s ease-in-out infinite;
+}
+
+@keyframes timer-bar-glow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+.timer-bar-segment.active.warning {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 170, 0, 1) 0%,
+    rgba(255, 170, 0, 0.8) 100%
+  );
+  border-color: rgba(255, 170, 0, 0.3);
+  box-shadow:
+    0 0 10px rgba(255, 170, 0, 0.7),
+    0 0 5px rgba(255, 170, 0, 0.9),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  animation: timer-bar-warning-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-bar-warning-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+}
+
+.timer-bar-segment.active.danger {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 51, 51, 1) 0%,
+    rgba(255, 51, 51, 0.8) 100%
+  );
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow:
+    0 0 12px rgba(255, 51, 51, 0.8),
+    0 0 6px rgba(255, 51, 51, 1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  animation: timer-bar-danger-pulse 0.35s ease-in-out infinite;
+}
+
+@keyframes timer-bar-danger-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+    transform: scaleY(1);
+  }
+  50% {
+    filter: brightness(1.4);
+    transform: scaleY(1.15);
+  }
+}
+
+/* ======================================
+   TIMER CIRCULAR PROFESIONAL DESACTIVADO
+   ====================================== */
+
+/* Comentado - Timer SVG circular
+.premium-timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 220px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.timer-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+/* Background del timer */
+.timer-bg {
+  stroke: rgba(26, 35, 50, 0.8);
+  stroke-dasharray: 535;
+  stroke-dashoffset: 0;
+  transition: stroke 0.3s ease;
+}
+
+/* Progress circle */
+.timer-progress {
+  stroke: #00ff88;
+  stroke-dasharray: 535;
+  stroke-linecap: round;
+  transition:
+    stroke 0.3s ease,
+    stroke-dashoffset 0.05s linear;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.8));
+}
+
+.timer-progress.warning {
+  stroke: #ffaa00;
+  filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.9));
+  animation: timer-pulse-warning 0.8s ease-in-out infinite;
+}
+
+.timer-progress.danger {
+  stroke: #ff3333;
+  filter: drop-shadow(0 0 15px rgba(255, 51, 51, 1));
+  animation: timer-pulse-danger 0.25s ease-in-out infinite;
+}
+
+/* Glow effect */
+.timer-glow {
+  stroke: #00ff88;
+  stroke-dasharray: 535;
+  stroke-linecap: round;
+  opacity: 0.3;
+  filter: blur(8px);
+  transition:
+    stroke 0.3s ease,
+    stroke-dashoffset 0.05s linear;
+}
+
+.timer-glow.warning {
+  stroke: #ffaa00;
+  opacity: 0.5;
+}
+
+.timer-glow.danger {
+  stroke: #ff3333;
+  opacity: 0.6;
+}
+
+@keyframes timer-pulse-warning {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.9));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 170, 0, 1));
+  }
+}
+
+@keyframes timer-pulse-danger {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 15px rgba(255, 51, 51, 1));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(255, 51, 51, 1));
+  }
+}
+
+/* Contenido del centro */
+.timer-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.timer-seconds {
+  font-size: 3.5em;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+  color: #00ff88;
+  text-shadow:
+    0 0 15px rgba(0, 255, 136, 1),
+    0 0 30px rgba(0, 255, 136, 0.8),
+    0 0 45px rgba(0, 255, 136, 0.5);
+  line-height: 1;
+  letter-spacing: 3px;
+  transition: all 0.1s ease;
+}
+
+.timer-seconds.warning {
+  color: #ffaa00;
+  text-shadow:
+    0 0 20px rgba(255, 170, 0, 1),
+    0 0 40px rgba(255, 170, 0, 0.8),
+    0 0 60px rgba(255, 170, 0, 0.5);
+  animation: seconds-pulse-warning 0.8s ease-in-out infinite;
+}
+
+.timer-seconds.danger {
+  color: #ff3333;
+  text-shadow:
+    0 0 25px rgba(255, 51, 51, 1),
+    0 0 50px rgba(255, 51, 51, 0.9),
+    0 0 75px rgba(255, 51, 51, 0.6);
+  animation: seconds-shake-danger 0.15s infinite;
+}
+
+@keyframes seconds-pulse-warning {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes seconds-shake-danger {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+  25% {
+    transform: translateX(-3px) scale(1.02);
+  }
+  75% {
+    transform: translateX(3px) scale(1.02);
+  }
+}
+
+.timer-label {
+  font-size: 0.65em;
+  font-weight: bold;
+  color: rgba(0, 255, 136, 0.6);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 5px;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+/* Status icons */
+.timer-status-icon {
+  width: 35px;
+  height: 35px;
+  margin-top: 8px;
+}
+
+.timer-status-icon.warning {
+  color: #ffaa00;
+  animation: icon-pulse-warning 0.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.8));
+}
+
+.timer-status-icon.danger {
+  color: #ff3333;
+  animation: icon-flash-danger 0.25s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 51, 51, 1));
+}
+
+.timer-status-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes icon-pulse-warning {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes icon-flash-danger {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15) rotate(5deg);
+  }
+}
+
+/* ======================================
+   TIMER CIRCULAR PREMIUM - MEJORAS ANTIGUAS (COMENTADO)
+   ====================================== */
+
+/* Trail effect cuando un segmento se apaga */
+.timer-segment-circle.trail {
+  animation: segment-trail 0.4s ease-out forwards;
+  opacity: 0.5 !important;
+}
+
+@keyframes segment-trail {
+  0% {
+    opacity: 1;
+    filter: brightness(2);
+  }
+  100% {
+    opacity: 0.05;
+    filter: brightness(0.3);
+  }
+}
+
+/* Spark/electric effect al consumirse */
+.segment-spark {
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, #fff 0%, transparent 70%);
+  opacity: 0;
+  animation: spark-flash 0.2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes spark-flash {
+  0% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Efecto de chispa eléctrica adicional */
+.timer-segment-circle.trail::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    currentColor 50%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  opacity: 0;
+  animation: electric-spark 0.15s ease-out;
+}
+
+@keyframes electric-spark {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Centro del timer con countdown */
+.timer-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Display del countdown */
+.countdown-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  border: 3px solid #00ff88;
+  border-radius: 12px;
+  padding: 15px 25px;
+  box-shadow:
+    0 0 20px rgba(0, 255, 136, 0.5),
+    0 0 40px rgba(0, 255, 136, 0.3),
+    inset 0 2px 10px rgba(0, 255, 136, 0.2);
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.countdown-display.warning {
+  border-color: #ffaa00;
+  box-shadow:
+    0 0 25px rgba(255, 170, 0, 0.6),
+    0 0 50px rgba(255, 170, 0, 0.4),
+    inset 0 2px 10px rgba(255, 170, 0, 0.3);
+  animation: countdown-pulse-warning 0.8s ease-in-out infinite;
+}
+
+.countdown-display.danger {
+  border-color: #ff3333;
+  box-shadow:
+    0 0 30px rgba(255, 51, 51, 0.8),
+    0 0 60px rgba(255, 51, 51, 0.5),
+    inset 0 2px 10px rgba(255, 51, 51, 0.4);
+  animation: countdown-pulse-danger 0.25s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse-warning {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes countdown-pulse-danger {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.countdown-number {
+  font-size: 3em;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+  color: #00ff88;
+  text-shadow:
+    0 0 10px rgba(0, 255, 136, 1),
+    0 0 20px rgba(0, 255, 136, 0.8),
+    0 0 30px rgba(0, 255, 136, 0.5);
+  line-height: 1;
+  letter-spacing: 2px;
+  transition: all 0.1s ease;
+}
+
+.countdown-display.warning .countdown-number {
+  color: #ffaa00;
+  text-shadow:
+    0 0 15px rgba(255, 170, 0, 1),
+    0 0 30px rgba(255, 170, 0, 0.8),
+    0 0 45px rgba(255, 170, 0, 0.5);
+}
+
+.countdown-display.danger .countdown-number {
+  color: #ff3333;
+  text-shadow:
+    0 0 20px rgba(255, 51, 51, 1),
+    0 0 40px rgba(255, 51, 51, 0.9),
+    0 0 60px rgba(255, 51, 51, 0.6);
+  animation: number-shake 0.15s infinite;
+}
+
+@keyframes number-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.countdown-label {
+  font-size: 0.7em;
+  font-weight: bold;
+  color: rgba(0, 255, 136, 0.7);
+  letter-spacing: 3px;
+  margin-top: 5px;
+}
+
+.countdown-display.warning .countdown-label {
+  color: rgba(255, 170, 0, 0.7);
+}
+
+.countdown-display.danger .countdown-label {
+  color: rgba(255, 51, 51, 0.7);
+}
+
+/* Warning icon */
+.warning-icon {
+  width: 50px;
+  height: 50px;
+  color: #ffaa00;
+  animation: warning-icon-pulse 0.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.8));
+  margin-top: 10px;
+}
+
+.warning-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes warning-icon-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Danger icon */
+.danger-icon {
+  width: 60px;
+  height: 60px;
+  color: #ff3333;
+  animation: danger-icon-flash 0.25s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 51, 51, 1));
+  margin-top: 10px;
+}
+
+.danger-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 3;
+}
+
+@keyframes danger-icon-flash {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2) rotate(5deg);
+  }
+}
+
+/* Efecto adicional: pulso en el borde del timer cuando danger */
+.circular-timer::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.game-screen.chromatic-aberration .circular-timer::after {
+  border-color: #ff3333;
+  opacity: 1;
+  animation: danger-border-pulse 0.3s ease-in-out infinite;
+  box-shadow:
+    0 0 20px rgba(255, 51, 51, 0.8),
+    0 0 40px rgba(255, 51, 51, 0.5),
+    inset 0 0 20px rgba(255, 51, 51, 0.3);
+}
+
+@keyframes danger-border-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -1140,6 +1818,51 @@ body::before {
   animation-delay: 0.33s;
 }
 
+/* Victory Lights */
+.victory-lights {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.victory-led {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 20px #ffd700,
+    0 0 40px #ffd700,
+    0 0 60px rgba(255, 215, 0, 0.5);
+  animation: victory-led-pulse 1.5s ease-in-out infinite;
+}
+
+.victory-led:nth-child(2) {
+  animation-delay: 0.5s;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+  box-shadow:
+    0 0 20px #00ff88,
+    0 0 40px #00ff88,
+    0 0 60px rgba(0, 255, 136, 0.5);
+}
+
+.victory-led:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes victory-led-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
 .game-over-title {
   font-size: 4.2em;
   font-weight: bold;
@@ -1166,6 +1889,45 @@ body::before {
     transform: scale(1.02);
     filter: brightness(1.2);
   }
+}
+
+/* Victory Title and Message */
+.victory-title {
+  font-size: 4.2em;
+  font-weight: bold;
+  letter-spacing: 12px;
+  margin-bottom: 30px;
+  color: #ffd700;
+  text-shadow:
+    0 0 30px rgba(255, 215, 0, 1),
+    0 0 60px rgba(255, 215, 0, 0.8),
+    0 0 90px rgba(0, 255, 136, 0.5),
+    0 0 120px rgba(0, 255, 136, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  animation: victory-title-pulse 2s ease-in-out infinite;
+}
+
+@keyframes victory-title-pulse {
+  0%,
+  100% {
+    color: #ffd700;
+    filter: brightness(1);
+  }
+  50% {
+    color: #00ff88;
+    filter: brightness(1.3);
+  }
+}
+
+.victory-message {
+  font-size: 1.4em;
+  margin-bottom: 40px;
+  color: #ffd700;
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.6),
+    0 0 20px rgba(0, 255, 136, 0.3);
+  letter-spacing: 2px;
 }
 
 .game-over-reason {
@@ -1598,10 +2360,27 @@ body::before {
 .screen-flash.flash-error {
   background: radial-gradient(
     circle,
-    rgba(255, 51, 51, 0.6) 0%,
+    rgba(255, 51, 51, 0.7) 0%,
+    rgba(255, 51, 51, 0.3) 40%,
     transparent 70%
   );
-  animation: flash-fade 0.4s ease-out;
+  animation: flash-error-intense 0.5s ease-out;
+  box-shadow: inset 0 0 200px rgba(255, 51, 51, 0.5);
+}
+
+@keyframes flash-error-intense {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes flash-fade {
@@ -1610,6 +2389,111 @@ body::before {
   }
   100% {
     opacity: 0;
+  }
+}
+
+/* Monitor Frame Error State */
+.monitor-frame.error-feedback {
+  animation: monitor-error-pulse 0.5s ease-in-out;
+  box-shadow:
+    0 0 40px rgba(255, 51, 51, 0.8),
+    0 0 80px rgba(255, 51, 51, 0.4),
+    inset 0 0 30px rgba(255, 51, 51, 0.3);
+}
+
+@keyframes monitor-error-pulse {
+  0%,
+  100% {
+    border-color: #334455;
+    box-shadow:
+      0 0 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  25% {
+    border-color: #ff3333;
+    box-shadow:
+      0 0 50px rgba(255, 51, 51, 1),
+      0 0 100px rgba(255, 51, 51, 0.6),
+      inset 0 0 40px rgba(255, 51, 51, 0.4);
+  }
+  50% {
+    border-color: #ff6666;
+    box-shadow:
+      0 0 40px rgba(255, 51, 51, 0.8),
+      0 0 80px rgba(255, 51, 51, 0.4),
+      inset 0 0 30px rgba(255, 51, 51, 0.3);
+  }
+  75% {
+    border-color: #ff3333;
+    box-shadow:
+      0 0 50px rgba(255, 51, 51, 1),
+      0 0 100px rgba(255, 51, 51, 0.6),
+      inset 0 0 40px rgba(255, 51, 51, 0.4);
+  }
+}
+
+/* Monitor Frame Victory State */
+.monitor-frame.victory-feedback {
+  animation: monitor-victory-pulse 1.5s ease-in-out;
+  box-shadow:
+    0 0 60px rgba(255, 215, 0, 0.8),
+    0 0 120px rgba(255, 215, 0, 0.4),
+    0 0 180px rgba(0, 255, 136, 0.3),
+    inset 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes monitor-victory-pulse {
+  0% {
+    border-color: #334455;
+    box-shadow:
+      0 0 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  15% {
+    border-color: #ffd700;
+    box-shadow:
+      0 0 80px rgba(255, 215, 0, 1),
+      0 0 140px rgba(255, 215, 0, 0.7),
+      0 0 200px rgba(0, 255, 136, 0.4),
+      inset 0 0 50px rgba(255, 215, 0, 0.5);
+  }
+  30% {
+    border-color: #00ff88;
+    box-shadow:
+      0 0 70px rgba(0, 255, 136, 0.9),
+      0 0 130px rgba(0, 255, 136, 0.6),
+      0 0 190px rgba(255, 215, 0, 0.3),
+      inset 0 0 45px rgba(0, 255, 136, 0.4);
+  }
+  45% {
+    border-color: #ffd700;
+    box-shadow:
+      0 0 85px rgba(255, 215, 0, 1),
+      0 0 145px rgba(255, 215, 0, 0.7),
+      0 0 205px rgba(0, 255, 136, 0.4),
+      inset 0 0 55px rgba(255, 215, 0, 0.5);
+  }
+  60% {
+    border-color: #00ff88;
+    box-shadow:
+      0 0 75px rgba(0, 255, 136, 0.9),
+      0 0 135px rgba(0, 255, 136, 0.6),
+      0 0 195px rgba(255, 215, 0, 0.3),
+      inset 0 0 48px rgba(0, 255, 136, 0.4);
+  }
+  75% {
+    border-color: #ffd700;
+    box-shadow:
+      0 0 80px rgba(255, 215, 0, 1),
+      0 0 140px rgba(255, 215, 0, 0.7),
+      0 0 200px rgba(0, 255, 136, 0.4),
+      inset 0 0 50px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    border-color: #334455;
+    box-shadow:
+      0 0 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -2256,5 +3140,650 @@ body::before {
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+/* ======================================
+   MEJORA 1: EFECTOS CRT AUTÉNTICOS
+   ====================================== */
+
+/* Curvatura de pantalla CRT */
+.monitor-container.crt-distortion .monitor-frame {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.monitor-container.crt-distortion .instruction-area {
+  transform: translateZ(0);
+  filter: url("#crt-warp") contrast(1.05) brightness(1.02);
+}
+
+/* Barrel distortion sutil */
+@supports (filter: url("#crt-barrel")) {
+  .monitor-frame {
+    filter: brightness(1.02) contrast(1.05);
+  }
+}
+
+/* Distorsión cromática en esquinas */
+.monitor-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgba(255, 0, 0, 0.03) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at top right,
+      rgba(0, 255, 0, 0.03) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgba(0, 0, 255, 0.03) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(255, 0, 255, 0.03) 0%,
+      transparent 30%
+    );
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: screen;
+}
+
+/* Aberración RGB mejorada cuando hay presión */
+.chromatic-aberration .monitor-frame::after {
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgba(255, 0, 0, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at top right,
+      rgba(0, 255, 255, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      rgba(0, 255, 0, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(255, 0, 255, 0.15) 0%,
+      transparent 40%
+    );
+  animation: chromatic-corners 0.15s infinite;
+}
+
+@keyframes chromatic-corners {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(1px, -1px);
+  }
+  50% {
+    transform: translate(-1px, 1px);
+  }
+  75% {
+    transform: translate(1px, 1px);
+  }
+}
+
+/* Efecto de CRT warp (curvatura) */
+.crt-distortion .instruction-area {
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.crt-distortion .instruction-area::before {
+  content: "";
+  position: absolute;
+  inset: -5%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 70%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ======================================
+   MEJORA 2: BOTONES CON MÁS VIDA
+   ====================================== */
+
+/* Animación breathing/idle cuando esperan input */
+.press-button {
+  animation: button-breathing 3s ease-in-out infinite;
+}
+
+@keyframes button-breathing {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.8),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    transform: scale(1.01);
+    box-shadow:
+      0 12px 35px rgba(0, 0, 0, 0.85),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* LED pulsando constantemente */
+.button-led-indicator {
+  animation: led-constant-pulse 2.5s ease-in-out infinite !important;
+}
+
+@keyframes led-constant-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Efecto ready-to-press con brillo que aumenta */
+.press-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: ready-to-press 3s ease-in-out infinite;
+}
+
+@keyframes ready-to-press {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Reflejo/glare animado que se mueve */
+.press-button::before {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    transparent 40%,
+    transparent 60%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  animation: glare-move 4s ease-in-out infinite;
+}
+
+@keyframes glare-move {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px);
+  }
+}
+
+/* Sombras dinámicas más dramáticas */
+.press-button:hover {
+  animation: none;
+  transform: scale(1.03);
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.95),
+    0 0 60px rgba(255, 255, 255, 0.1),
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    inset 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+.red-btn:hover {
+  box-shadow:
+    0 15px 50px rgba(255, 51, 51, 0.6),
+    0 0 80px rgba(255, 51, 51, 0.4),
+    0 0 120px rgba(255, 51, 51, 0.2),
+    inset 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+.blue-btn:hover {
+  box-shadow:
+    0 15px 50px rgba(51, 136, 255, 0.6),
+    0 0 80px rgba(51, 136, 255, 0.4),
+    0 0 120px rgba(51, 136, 255, 0.2),
+    inset 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* ======================================
+   MEJORA 3: TRANSICIONES DE TEXTO
+   ====================================== */
+
+/* Cursor parpadeante para typing effect */
+.cursor {
+  display: inline-block;
+  margin-left: 4px;
+  animation: cursor-blink 0.7s infinite;
+  color: #00ff88;
+}
+
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Efecto de typing/matrix */
+#instruction.typing {
+  position: relative;
+}
+
+#instruction.typing::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #00ff88;
+  animation: typing-caret 0.05s steps(1) infinite;
+}
+
+@keyframes typing-caret {
+  0%,
+  100% {
+    left: 0%;
+  }
+  50% {
+    left: calc(100% - 3px);
+  }
+}
+
+/* Glitch effect al cambiar */
+#instruction.glitch-text {
+  animation: glitch-anim 0.3s infinite;
+  position: relative;
+}
+
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+    filter: hue-rotate(0deg);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translate(2px, -2px);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+    filter: hue-rotate(270deg);
+  }
+  80% {
+    transform: translate(2px, 2px);
+    filter: hue-rotate(360deg);
+  }
+  100% {
+    transform: translate(0);
+    filter: hue-rotate(0deg);
+  }
+}
+
+#instruction.glitch-text::before,
+#instruction.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+}
+
+#instruction.glitch-text::before {
+  left: -2px;
+  text-shadow: 2px 0 #ff0000;
+  animation: glitch-before 0.3s infinite linear alternate-reverse;
+}
+
+#instruction.glitch-text::after {
+  left: 2px;
+  text-shadow: -2px 0 #00ffff;
+  animation: glitch-after 0.3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-before {
+  0% {
+    clip: rect(42px, 9999px, 44px, 0);
+  }
+  25% {
+    clip: rect(12px, 9999px, 59px, 0);
+  }
+  50% {
+    clip: rect(48px, 9999px, 29px, 0);
+  }
+  75% {
+    clip: rect(18px, 9999px, 83px, 0);
+  }
+  100% {
+    clip: rect(38px, 9999px, 67px, 0);
+  }
+}
+
+@keyframes glitch-after {
+  0% {
+    clip: rect(65px, 9999px, 119px, 0);
+  }
+  25% {
+    clip: rect(25px, 9999px, 99px, 0);
+  }
+  50% {
+    clip: rect(58px, 9999px, 13px, 0);
+  }
+  75% {
+    clip: rect(95px, 9999px, 36px, 0);
+  }
+  100% {
+    clip: rect(76px, 9999px, 42px, 0);
+  }
+}
+
+/* Flash override para urgencia */
+#instruction.urgent {
+  animation: urgent-flash 0.5s ease-in-out infinite;
+}
+
+@keyframes urgent-flash {
+  0%,
+  100% {
+    color: #00ff88;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 1);
+  }
+  50% {
+    color: #ff3333;
+    text-shadow: 0 0 30px rgba(255, 51, 51, 1);
+  }
+}
+
+/* ======================================
+   MEJORA 4: GRID/OVERLAY TÉCNICO
+   ====================================== */
+
+/* Grid pattern sutil en background */
+.technical-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 49px,
+      rgba(0, 255, 136, 0.03) 49px,
+      rgba(0, 255, 136, 0.03) 50px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 49px,
+      rgba(0, 255, 136, 0.03) 49px,
+      rgba(0, 255, 136, 0.03) 50px
+    );
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+/* Overlay técnico */
+.tech-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  font-family: "Courier New", monospace;
+  font-size: 0.7em;
+}
+
+.tech-corner {
+  position: absolute;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #00ff88;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+  letter-spacing: 1px;
+}
+
+.tech-corner.tl {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.tech-corner.tr {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+  align-items: flex-end;
+}
+
+.tech-corner.bl {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.tech-corner.br {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+  align-items: flex-end;
+}
+
+.tech-label {
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.tech-coords,
+.tech-hex,
+.tech-status,
+.tech-temp {
+  font-size: 0.9em;
+  opacity: 0.6;
+  animation: tech-flicker 3s infinite;
+}
+
+@keyframes tech-flicker {
+  0%,
+  98%,
+  100% {
+    opacity: 0.6;
+  }
+  99% {
+    opacity: 0.3;
+  }
+}
+
+/* Código hex animado */
+.tech-hex {
+  animation:
+    hex-change 0.1s steps(1) infinite,
+    tech-flicker 3s infinite;
+}
+
+@keyframes hex-change {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* Temperatura del sistema */
+.tech-temp {
+  color: #ffaa00;
+}
+
+/* ======================================
+   MEJORA 5: FEEDBACK VISUAL MEJORADO
+   ====================================== */
+
+/* Zoom pulse en aciertos */
+.game-screen.zoom-pulse {
+  animation: zoom-pulse-anim 0.3s ease-out;
+}
+
+@keyframes zoom-pulse-anim {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Screen shake mejorado con rotación */
+.game-screen.shake {
+  animation: shake-enhanced 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake-enhanced {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  10% {
+    transform: translate(-8px, 2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(8px, -2px) rotate(1deg);
+  }
+  30% {
+    transform: translate(-6px, 4px) rotate(-0.8deg);
+  }
+  40% {
+    transform: translate(6px, -4px) rotate(0.8deg);
+  }
+  50% {
+    transform: translate(-4px, 2px) rotate(-0.5deg);
+  }
+  60% {
+    transform: translate(4px, -2px) rotate(0.5deg);
+  }
+  70% {
+    transform: translate(-2px, 1px) rotate(-0.3deg);
+  }
+  80% {
+    transform: translate(2px, -1px) rotate(0.3deg);
+  }
+  90% {
+    transform: translate(-0.5px, 0.5px) rotate(-0.1deg);
+  }
+}
+
+/* Distorsión de onda en errores */
+.game-screen.wave-distortion {
+  animation: wave-distort 0.6s ease-out;
+}
+
+@keyframes wave-distort {
+  0% {
+    filter: blur(0px) contrast(1);
+    transform: skewX(0deg);
+  }
+  10% {
+    filter: blur(2px) contrast(1.2);
+    transform: skewX(5deg);
+  }
+  20% {
+    filter: blur(4px) contrast(1.1);
+    transform: skewX(-5deg);
+  }
+  30% {
+    filter: blur(2px) contrast(1.15);
+    transform: skewX(3deg);
+  }
+  40% {
+    filter: blur(3px) contrast(1.05);
+    transform: skewX(-3deg);
+  }
+  50% {
+    filter: blur(1px) contrast(1.1);
+    transform: skewX(1deg);
+  }
+  60% {
+    filter: blur(2px) contrast(1.03);
+    transform: skewX(-1deg);
+  }
+  100% {
+    filter: blur(0px) contrast(1);
+    transform: skewX(0deg);
+  }
+}
+
+/* Partículas más grandes y coloridas */
+.particle {
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 0 10px currentColor;
+  filter: blur(0.5px);
+  animation: particle-float 1s ease-out forwards;
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
   }
 }

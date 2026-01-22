@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { GameComponent } from "./components/game/game.component";
 import { MenuComponent } from "./components/menu/menu.component";
 import { ScoreboardComponent } from "./components/scoreboard/scoreboard.component";
+import { VictoryComponent } from "./components/victory/victory.component";
 import { TutorialComponent } from "./components/tutorial/tutorial.component";
 import { LeaderboardComponent } from "./components/leaderboard/leaderboard.component";
 import { StatsComponent } from "./components/stats/stats.component";
@@ -24,6 +25,7 @@ import { SettingsService } from "./services/settings.service";
     GameComponent,
     MenuComponent,
     ScoreboardComponent,
+    VictoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -93,20 +93,11 @@ export class SettingsService {
 
   /**
    * Obtiene el modificador de dificultad para el tiempo
+   * NOTA: Siempre devuelve 1.0 porque la dificultad es progresiva (aumenta automáticamente cada 10 rondas)
    */
   getDifficultyModifier(): number {
-    switch (this.settings.difficulty) {
-      case "easy":
-        return 1.3; // 30% más de tiempo
-      case "normal":
-        return 1.0; // Tiempo normal
-      case "hard":
-        return 0.8; // 20% menos de tiempo
-      case "extreme":
-        return 0.6; // 40% menos de tiempo
-      default:
-        return 1.0;
-    }
+    // La dificultad ahora es progresiva interna, no necesita modificación
+    return 1.0;
   }
 
   /**

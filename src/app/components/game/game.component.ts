@@ -48,6 +48,10 @@ interface BackgroundParticle {
 })
 export class GameComponent implements OnInit, OnDestroy {
   @Output() backToMenu = new EventEmitter<void>();
+  @Output() showVictory = new EventEmitter<{
+    finalRound: number;
+    finalScore: number;
+  }>();
 
   score: number = 0;
   round: number = 1;
@@ -56,7 +60,7 @@ export class GameComponent implements OnInit, OnDestroy {
   redPresses: number = 0;
   bluePresses: number = 0;
   gameActive: boolean = false;
-  totalSegments: number = 40;
+  totalSegments: number = 0;
   segments: any[] = [];
   gameOverVisible: boolean = false;
   gameOverReason: string = "";
@@ -71,6 +75,30 @@ export class GameComponent implements OnInit, OnDestroy {
   showSparks: boolean = false;
   showChromaticAberration: boolean = false;
   private backgroundParticleInterval: any;
+
+  // MEJORA 5: Efectos visuales mejorados
+  showZoomPulse: boolean = false;
+  showWaveDistortion: boolean = false;
+  showErrorFeedback: boolean = false;
+  showVictoryFeedback: boolean = false;
+
+  // MEJORA 4: Sistema técnico/grid
+  techCoords = { x: 0, y: 0 };
+  hexCode1: string = "0x0000";
+  hexCode2: string = "0x0000";
+  hexCode3: string = "0x0000";
+  systemTemp: number = 45;
+  private techUpdateInterval: any;
+
+  // MEJORA 3: Typing effect
+  displayedInstruction: string = "";
+  private typingInterval: any;
+  isTyping: boolean = false;
+
+  // Timer circular mejorado
+  remainingSeconds: number = 0;
+  timerPercentage: number = 1;
+  private lastActiveSegment: number = -1;
 
   // Sistema de Estadísticas
   private gameStartTime: number = 0;
@@ -107,6 +135,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   // Desafíos del juego importados desde archivo separado
   private challenges: Challenge[] = GAME_CHALLENGES;
+  private recentChallenges: Challenge[] = []; // Historial de desafíos recientes
 
   constructor(
     private statsService: PlayerStatsService,
@@ -127,6 +156,12 @@ export class GameComponent implements OnInit, OnDestroy {
     }
     if (this.backgroundParticleInterval) {
       clearInterval(this.backgroundParticleInterval);
+    }
+    if (this.techUpdateInterval) {
+      clearInterval(this.techUpdateInterval);
+    }
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
     }
     this.stopAllSounds();
   }
@@ -297,7 +332,39 @@ export class GameComponent implements OnInit, OnDestroy {
     this.currentChallenge = null;
     this.gameActive = true;
     this.gameOverVisible = false;
-    this.createTimerSegments();
+    this.showGameOverAnimation = false;
+    this.showSparks = false;
+    this.isShaking = false;
+    this.isGlitching = false;
+    this.showChromaticAberration = false;
+    this.showZoomPulse = false;
+    this.showWaveDistortion = false;
+    this.showErrorFeedback = false;
+    this.showVictoryFeedback = false;
+    this.redPresses = 0;
+    this.bluePresses = 0;
+    this.lastWarningPlayed = "";
+    this.screenFlash = "";
+    this.recentChallenges = []; // Limpiar historial de desafíos
+
+    // Limpiar partículas y efectos visuales
+    this.particles = [];
+
+    // Limpiar intervalos de efectos
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+    }
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+
+    // Mostrar texto de inicialización
+    this.displayedInstruction = "";
+    this.isTyping = false;
+
+    // Inicializar timer con un valor por defecto (se actualizará al iniciar ronda)
+    this.createTimerSegments(5000);
     this.playBackgroundMusic();
 
     // Reset estadísticas
@@ -309,48 +376,26 @@ export class GameComponent implements OnInit, OnDestroy {
     this.incorrectAnswers = 0;
     this.newAchievements = [];
 
+    // MEJORA 4: Iniciar sistema técnico
+    this.startTechnicalSystem();
+
+    // Esperar 1.5 segundos para mostrar "SYSTEM INITIALIZING..." antes del primer desafío
     setTimeout(() => {
       this.startNewRound();
-    }, 1000);
+    }, 1500);
   }
 
-  createTimerSegments() {
+  createTimerSegments(duration: number) {
     this.segments = [];
-    const segmentsPerSide = Math.floor(this.totalSegments / 4);
+    // Crear aproximadamente 1 segmento cada 100ms para que el timer sea fluido
+    // Mínimo 20 segmentos, máximo 80 segmentos
+    this.totalSegments = Math.min(80, Math.max(20, Math.floor(duration / 100)));
 
     for (let i = 0; i < this.totalSegments; i++) {
-      const side = Math.floor(i / segmentsPerSide);
-      const indexInSide = i % segmentsPerSide;
-
-      let style: any = {};
-
-      if (side === 0) {
-        style.left = `calc(${(indexInSide / segmentsPerSide) * 100}%)`;
-        style.top = "0";
-        style.width = "26px";
-        style.height = "38px";
-      } else if (side === 1) {
-        style.right = "0";
-        style.top = `calc(${(indexInSide / segmentsPerSide) * 100}%)`;
-        style.width = "38px";
-        style.height = "26px";
-      } else if (side === 2) {
-        style.right = `calc(${(indexInSide / segmentsPerSide) * 100}%)`;
-        style.bottom = "0";
-        style.width = "26px";
-        style.height = "38px";
-      } else {
-        style.left = "0";
-        style.bottom = `calc(${(indexInSide / segmentsPerSide) * 100}%)`;
-        style.width = "38px";
-        style.height = "26px";
-      }
-
       this.segments.push({
         active: true,
         warning: false,
         danger: false,
-        style: style,
       });
     }
   }
@@ -358,14 +403,62 @@ export class GameComponent implements OnInit, OnDestroy {
   startNewRound() {
     if (!this.gameActive) return;
 
+    // Reset de contadores
     this.redPresses = 0;
     this.bluePresses = 0;
     this.lastWarningPlayed = "";
-    this.roundStartTime = Date.now(); // Para medir tiempo de reacción
+    this.roundStartTime = Date.now();
 
-    // Selección aleatoria de desafío
+    // Limpiar efectos visuales de la ronda anterior
+    this.showChromaticAberration = false;
+    this.isShaking = false;
+    this.isGlitching = false;
+    this.showZoomPulse = false;
+    this.showWaveDistortion = false;
+    this.screenFlash = "";
+
+    // Calcular dificultad máxima permitida según la ronda (aumenta cada 10 rondas)
+    // Rondas 1-10: dificultad 1
+    // Rondas 11-20: dificultad 2
+    // Rondas 21-30: dificultad 3
+    // Rondas 31-40: dificultad 4
+    // Rondas 41+: dificultad 5
+    const maxDifficulty = Math.min(5, Math.ceil(this.round / 10));
+
+    // Selección aleatoria de desafío evitando repeticiones y respetando dificultad progresiva
+    let availableChallenges = this.challenges.filter(
+      (challenge) =>
+        !this.recentChallenges.includes(challenge) &&
+        challenge.difficulty <= maxDifficulty,
+    );
+
+    // Si no hay desafíos disponibles con estas restricciones, relajar las reglas
+    if (availableChallenges.length === 0) {
+      // Primero intentar sin historial pero respetando dificultad
+      availableChallenges = this.challenges.filter(
+        (challenge) => challenge.difficulty <= maxDifficulty,
+      );
+
+      // Si aún no hay suficientes, limpiar historial y permitir cualquier dificultad
+      if (availableChallenges.length === 0) {
+        this.recentChallenges = [];
+        availableChallenges = this.challenges;
+      } else {
+        // Limpiar historial para la próxima vez
+        this.recentChallenges = [];
+      }
+    }
+
     this.currentChallenge =
-      this.challenges[Math.floor(Math.random() * this.challenges.length)];
+      availableChallenges[
+        Math.floor(Math.random() * availableChallenges.length)
+      ];
+
+    // Agregar al historial y mantener solo los últimos 5
+    this.recentChallenges.push(this.currentChallenge);
+    if (this.recentChallenges.length > 5) {
+      this.recentChallenges.shift();
+    }
 
     // Cálculo dinámico de tiempo basado en dificultad y ronda, ajustado por settings
     const baseTime = calculateChallengeTime(
@@ -375,31 +468,78 @@ export class GameComponent implements OnInit, OnDestroy {
     const difficultyModifier = this.settingsService.getDifficultyModifier();
     const finalTime = Math.round(baseTime * difficultyModifier);
 
+    // MEJORA 3: Efecto de glitch y typing al cambiar desafío
+    this.glitchText();
+    setTimeout(() => {
+      if (this.currentChallenge) {
+        this.typeText(this.currentChallenge.text, 25);
+      }
+    }, 300);
+
     this.playSound("ROUND_START");
 
+    // Crear segmentos del timer basados en la duración
+    this.createTimerSegments(finalTime);
     this.startTimer(finalTime);
   }
 
   startTimer(duration: number) {
+    // Limpiar timer existente si hay uno
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+
     let timeLeft = duration;
     const startTime = Date.now();
 
     this.showChromaticAberration = false;
+    this.lastActiveSegment = this.totalSegments;
 
     this.segments.forEach((segment) => {
       segment.active = true;
       segment.warning = false;
       segment.danger = false;
+      segment.trail = false;
+      segment.spark = false;
     });
 
     this.timerInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
       timeLeft = duration - elapsed;
 
+      // Actualizar segundos restantes y porcentaje
+      this.remainingSeconds = Math.ceil(timeLeft / 1000);
+      this.timerPercentage = timeLeft / duration;
+
       const percentage = timeLeft / duration;
       const activeSegments = Math.ceil(percentage * this.totalSegments);
 
       this.showChromaticAberration = percentage < 0.12;
+
+      // Detectar cuando un segmento se apaga para efectos
+      if (activeSegments < this.lastActiveSegment) {
+        // Activar trail en el segmento que se acaba de apagar
+        if (this.segments[activeSegments]) {
+          this.segments[activeSegments].trail = true;
+          this.segments[activeSegments].spark = true;
+
+          // Desactivar trail después de la animación
+          setTimeout(() => {
+            if (this.segments[activeSegments]) {
+              this.segments[activeSegments].trail = false;
+            }
+          }, 400);
+
+          // Desactivar spark después de la animación
+          setTimeout(() => {
+            if (this.segments[activeSegments]) {
+              this.segments[activeSegments].spark = false;
+            }
+          }, 200);
+        }
+        this.lastActiveSegment = activeSegments;
+      }
 
       this.segments.forEach((segment, index) => {
         if (index < activeSegments) {
@@ -440,6 +580,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
       if (timeLeft <= 0) {
         clearInterval(this.timerInterval);
+        this.timerInterval = null;
         this.showChromaticAberration = false;
         this.checkAnswer();
       }
@@ -449,8 +590,9 @@ export class GameComponent implements OnInit, OnDestroy {
   checkAnswer() {
     if (!this.gameActive) return;
 
-    clearInterval(this.timerInterval);
+    // Prevenir ejecuciones múltiples
     this.gameActive = false;
+    clearInterval(this.timerInterval);
 
     // Calcular tiempo de reacción
     const reactionTime = Date.now() - this.roundStartTime;
@@ -469,10 +611,27 @@ export class GameComponent implements OnInit, OnDestroy {
       }
 
       this.score += 10 * this.round;
+
+      const completedRounds = this.round; // Guardar rondas completadas antes de incrementar
       this.round++;
 
       this.playSound("ROUND_SUCCESS");
       this.triggerFlash("success");
+
+      // MEJORA 5: Efectos visuales mejorados en acierto
+      this.triggerZoomPulse();
+      this.createEnhancedParticles(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        20,
+        "#00ff88",
+      );
+
+      // Verificar victoria después de 50 rondas completadas
+      if (completedRounds >= 50) {
+        this.triggerVictoryGame();
+        return;
+      }
 
       setTimeout(() => {
         this.gameActive = true;
@@ -484,9 +643,25 @@ export class GameComponent implements OnInit, OnDestroy {
       this.currentStreak = 0;
 
       this.playSound("ROUND_FAIL");
+
+      // MEJORA: Feedback visual en rojo cuando fallas
+      this.triggerErrorFeedback();
       this.triggerShake();
       this.triggerGlitch(500);
-      this.endGame("¡Respuesta incorrecta!");
+
+      // MEJORA 5: Efectos visuales mejorados en error
+      this.triggerWaveDistortion();
+      this.createEnhancedParticles(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        30,
+        "#ff3333",
+      );
+
+      // MEJORA 4: Aumentar temperatura del sistema
+      this.increaseSystemTemp(15);
+
+      this.endGame(this.translationService.translate("game.wrongAnswer"));
     }
   }
 
@@ -517,10 +692,6 @@ export class GameComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showGameOverAnimation = false;
       this.gameOverVisible = true;
-      // Intentar reproducir música de fondo si aún no ha comenzado
-      if (!this.musicStarted && this.gameActive) {
-        this.playBackgroundMusic();
-      }
     }, 2000);
   }
 
@@ -551,9 +722,22 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   restartGame() {
+    // Limpiar estado visual completamente
     this.gameOverVisible = false;
     this.showGameOverAnimation = false;
+    this.showSparks = false;
     this.particles = [];
+    this.isShaking = false;
+    this.isGlitching = false;
+    this.showChromaticAberration = false;
+    this.showZoomPulse = false;
+    this.showWaveDistortion = false;
+    this.showErrorFeedback = false;
+    this.showVictoryFeedback = false;
+    this.screenFlash = "";
+    this.recentChallenges = []; // Limpiar historial de desafíos
+
+    // Iniciar juego limpio
     this.initGame();
   }
 
@@ -613,6 +797,191 @@ export class GameComponent implements OnInit, OnDestroy {
           this.showAchievementNotification = false;
         }, 5000);
       }, 3000);
+    }
+  }
+
+  // ========================================
+  // MEJORA 3: Sistema de Typing Effect
+  // ========================================
+  typeText(text: string, speed: number = 30) {
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+    }
+
+    this.displayedInstruction = "";
+    this.isTyping = true;
+    let index = 0;
+
+    this.typingInterval = setInterval(() => {
+      if (index < text.length) {
+        this.displayedInstruction += text[index];
+        index++;
+
+        // Efecto de sonido aleatorio para tecleo (opcional)
+        if (Math.random() > 0.7) {
+          // Sonido sutil de typing
+        }
+      } else {
+        clearInterval(this.typingInterval);
+        this.isTyping = false;
+      }
+    }, speed);
+  }
+
+  // Efecto de glitch al cambiar texto
+  glitchText() {
+    this.isGlitching = true;
+    setTimeout(() => {
+      this.isGlitching = false;
+    }, 300);
+  }
+
+  // ========================================
+  // MEJORA 4: Sistema Técnico/Grid
+  // ========================================
+  startTechnicalSystem() {
+    // Actualizar coordenadas y códigos hex
+    this.techUpdateInterval = setInterval(() => {
+      this.techCoords.x = Math.floor(Math.random() * 9999);
+      this.techCoords.y = Math.floor(Math.random() * 9999);
+      this.hexCode1 =
+        "0x" +
+        Math.floor(Math.random() * 0xffff)
+          .toString(16)
+          .toUpperCase()
+          .padStart(4, "0");
+      this.hexCode2 =
+        "0x" +
+        Math.floor(Math.random() * 0xffff)
+          .toString(16)
+          .toUpperCase()
+          .padStart(4, "0");
+      this.hexCode3 =
+        "0x" +
+        Math.floor(Math.random() * 0xffff)
+          .toString(16)
+          .toUpperCase()
+          .padStart(4, "0");
+
+      // Temperatura aumenta con errores, disminuye con aciertos
+      if (this.systemTemp > 45) {
+        this.systemTemp = Math.max(45, this.systemTemp - 1);
+      }
+    }, 100);
+  }
+
+  increaseSystemTemp(amount: number = 5) {
+    this.systemTemp = Math.min(100, this.systemTemp + amount);
+  }
+
+  // ========================================
+  // MEJORA 5: Feedback Visual Mejorado
+  // ========================================
+  triggerZoomPulse() {
+    this.showZoomPulse = true;
+    setTimeout(() => {
+      this.showZoomPulse = false;
+    }, 300);
+  }
+
+  triggerWaveDistortion() {
+    this.showWaveDistortion = true;
+    setTimeout(() => {
+      this.showWaveDistortion = false;
+    }, 600);
+  }
+
+  triggerErrorFeedback() {
+    this.showErrorFeedback = true;
+    setTimeout(() => {
+      this.showErrorFeedback = false;
+    }, 500);
+  }
+
+  triggerVictoryFeedback() {
+    // Celebración visual espectacular
+    this.showVictoryFeedback = true;
+
+    // Crear múltiples explosiones de partículas doradas
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.createEnhancedParticles(
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          40,
+          i % 2 === 0 ? "#FFD700" : "#00ff88",
+        );
+      }, i * 100);
+    }
+
+    // Efectos visuales combinados
+    this.triggerZoomPulse();
+    setTimeout(() => this.triggerZoomPulse(), 200);
+    setTimeout(() => this.triggerZoomPulse(), 400);
+
+    // Sonido de éxito (usar round success múltiples veces)
+    this.playSound("ROUND_SUCCESS");
+    setTimeout(() => this.playSound("ROUND_SUCCESS"), 150);
+
+    setTimeout(() => {
+      this.showVictoryFeedback = false;
+    }, 1500);
+  }
+
+  triggerVictoryGame() {
+    this.gameActive = false;
+    clearInterval(this.timerInterval);
+
+    // Guardar estadísticas
+    this.saveGameSession();
+
+    // Animación de victoria espectacular
+    this.triggerVictoryFeedback();
+
+    // Crear explosiones masivas de partículas
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const x = window.innerWidth / 2 + (Math.random() - 0.5) * 400;
+        const y = window.innerHeight / 2 + (Math.random() - 0.5) * 300;
+        this.createEnhancedParticles(
+          x,
+          y,
+          30,
+          i % 3 === 0 ? "#FFD700" : i % 3 === 1 ? "#00ff88" : "#3388ff",
+        );
+      }, i * 150);
+    }
+
+    // Sonidos de celebración
+    this.playSound("ROUND_SUCCESS");
+    setTimeout(() => this.playSound("ROUND_SUCCESS"), 200);
+    setTimeout(() => this.playSound("ROUND_SUCCESS"), 400);
+    setTimeout(() => this.playSound("ROUND_SUCCESS"), 600);
+
+    // Emitir evento de victoria después de las animaciones
+    setTimeout(() => {
+      this.showVictory.emit({
+        finalRound: this.round - 1, // Restar 1 porque ya incrementamos
+        finalScore: this.score,
+      });
+    }, 2000);
+  }
+
+  // Crear partículas más grandes y coloridas
+  createEnhancedParticles(x: number, y: number, count: number, color: string) {
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count;
+      const speed = 3 + Math.random() * 4;
+
+      this.particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1,
+        color: color,
+        size: 8 + Math.random() * 12, // Partículas más grandes
+      });
     }
   }
 }

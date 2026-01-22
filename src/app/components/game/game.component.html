@@ -4,7 +4,30 @@
   [class.shake]="isShaking"
   [class.glitch]="isGlitching"
   [class.chromatic-aberration]="showChromaticAberration"
+  [class.zoom-pulse]="showZoomPulse"
+  [class.wave-distortion]="showWaveDistortion"
 >
+  <!-- MEJORA 4: Grid técnico y coordenadas -->
+  <div class="technical-grid"></div>
+  <div class="tech-overlay">
+    <!-- <div class="tech-corner tl">
+      <span class="tech-label">UNIT-7829</span>
+      <span class="tech-coords">X:{{ techCoords.x }} Y:{{ techCoords.y }}</span>
+    </div> -->
+    <!-- <div class="tech-corner tr">
+      <span class="tech-hex">{{ hexCode1 }}</span>
+      <span class="tech-status">ACTIVE</span>
+    </div> -->
+    <div class="tech-corner bl">
+      <span class="tech-hex">{{ hexCode2 }}</span>
+      <span class="tech-temp">TEMP: {{ systemTemp }}°C</span>
+    </div>
+    <div class="tech-corner br">
+      <span class="tech-label">SYS-ONLINE</span>
+      <span class="tech-hex">{{ hexCode3 }}</span>
+    </div>
+  </div>
+
   <!-- Partículas de fondo flotantes -->
   <div class="background-particles">
     <div
@@ -70,28 +93,43 @@
     </div>
   </div>
 
-  <!-- Marco del monitor con timer circular -->
+  <!-- Marco del monitor con timer de segmentos -->
   <div class="monitor-container" [class.crt-distortion]="true">
-    <div class="circular-timer">
-      <div
-        *ngFor="let segment of segments"
-        class="timer-segment-circle"
-        [class.active]="segment.active"
-        [class.inactive]="!segment.active"
-        [class.warning]="segment.warning"
-        [class.danger]="segment.danger"
-        [ngStyle]="segment.style"
-      ></div>
-    </div>
-    <div class="monitor-frame">
+    <div
+      class="monitor-frame"
+      [class.error-feedback]="showErrorFeedback"
+      [class.victory-feedback]="showVictoryFeedback"
+    >
       <div class="monitor-screw tl"></div>
       <div class="monitor-screw tr"></div>
       <div class="monitor-screw bl"></div>
       <div class="monitor-screw br"></div>
       <div class="screen-scanline"></div>
+
+      <!-- Timer de progreso horizontal profesional -->
+      <div class="timer-bar-container">
+        <div class="timer-bar">
+          <div
+            *ngFor="let segment of segments; let i = index"
+            class="timer-bar-segment"
+            [class.active]="segment.active"
+            [class.warning]="segment.warning"
+            [class.danger]="segment.danger"
+          ></div>
+        </div>
+      </div>
+
       <div class="instruction-area">
-        <p id="instruction">
-          {{ currentChallenge?.text || "SYSTEM INITIALIZING..." }}
+        <p
+          id="instruction"
+          [class.typing]="isTyping"
+          [class.glitch-text]="isGlitching"
+        >
+          {{
+            displayedInstruction ||
+              currentChallenge?.text ||
+              "SYSTEM INITIALIZING..."
+          }}<span class="cursor" *ngIf="isTyping">_</span>
         </p>
       </div>
     </div>

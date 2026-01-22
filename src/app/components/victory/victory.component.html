@@ -1,0 +1,76 @@
+<div class="victory-container">
+  <!-- Animated particles -->
+  <div class="particle-container">
+    <div
+      *ngFor="let particle of particles"
+      class="particle"
+      [style.left.px]="particle.x"
+      [style.top.px]="particle.y"
+      [style.width.px]="particle.size"
+      [style.height.px]="particle.size"
+      [style.background-color]="particle.color"
+      [style.opacity]="particle.life"
+    ></div>
+  </div>
+
+  <!-- Victory Panel -->
+  <div class="panel-frame victory-frame">
+    <!-- Victory Lights (3 LEDs en la parte superior) -->
+    <div class="victory-lights">
+      <div class="victory-led victory-led-1"></div>
+      <div class="victory-led victory-led-2"></div>
+      <div class="victory-led victory-led-3"></div>
+    </div>
+
+    <!-- Victory Title -->
+    <div class="victory-title">
+      {{ translationService.translate("victory.VICTORY_TITLE") }}
+    </div>
+
+    <!-- Victory Message -->
+    <div class="victory-message">
+      {{ translationService.translate("victory.VICTORY_MESSAGE") }}
+    </div>
+
+    <!-- Final Stats -->
+    <div class="final-stats">
+      <div class="stat-row">
+        <span class="stat-label"
+          >{{ translationService.translate("victory.ROUNDS_COMPLETED") }}:</span
+        >
+        <span class="stat-value">{{ formattedRound }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label"
+          >{{ translationService.translate("victory.FINAL_SCORE") }}:</span
+        >
+        <span class="stat-value">{{ formattedScore }}</span>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar success">
+      <div class="status-indicator pulse-green"></div>
+      <span class="status-text">{{
+        translationService.translate("victory.MISSION_COMPLETE")
+      }}</span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-container">
+      <button class="menu-button" (click)="onBackToMenu()">
+        <div class="button-led"></div>
+        <span class="button-text">{{
+          translationService.translate("victory.BACK_TO_MENU")
+        }}</span>
+      </button>
+
+      <button class="restart-button" (click)="onPlayAgain()">
+        <div class="button-led"></div>
+        <span class="button-text">{{
+          translationService.translate("victory.PLAY_AGAIN")
+        }}</span>
+      </button>
+    </div>
+  </div>
+</div>
